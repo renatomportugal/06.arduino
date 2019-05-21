@@ -1,9 +1,80 @@
-Glide is _super cool_ for these reasons:
+# Task Lists
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
 
-* It's easy & fun to use.
-* It's powerful.
-* The apps are a **dream**!
+# Footnotes
+Here's a simple footnote,[^1] and here's a longer one.[^bignote]
 
+[^1]: This is the first footnote.
+[^bignote]: Here's one with multiple paragraphs and code.
+Indent paragraphs to include them in the footnote.
+
+`{ my code }`
+
+Add as many paragraphs as you like.
+
+
+# Syntax Highlighting
+```json
+{
+"firstName": "John",
+"lastName": "Smith",
+"age": 25
+}
+```
+
+
+# Fenced Code Blocks
+```
+{
+"firstName": "John",
+"lastName": "Smith",
+"age": 25
+}
+```
+
+#Escaping Characters
+\* Without the backslash, this would be a bullet in an unordered list.
+
+## backslash
+You can use a backslash to escape the following characters.
+
+| Character | Name | xxxxxxx |
+| :--- | :----: | ---: |
+| \ | backslash | x |
+| ` | tickmark | x |
+| * | asterisk | x |
+| _ | underscore | xx |
+| {} | curly braces | xxx |
+| [] | brackets | xx |
+| () | parentheses | x |
+
+# pound sign
++ plus sign
+- minus sign (hyphen)
+. dot
+! exclamation mark
+
+
+---
+
+# Links
+Use [Duck Duck Go](https://duckduckgo.com).
+
+## Tiles
+Use [Duck Duck Go](https://duckduckgo.com "My search engine!").
+
+## URLs and Email Addresses
+<https://eff.org>
+<fake@example.com>
+
+
+## Formatting Links
+I love supporting **[EFF](https://eff.org)**.
+This is the *[EFF](https://eff.org)*.
+
+---
 # TABELA
 
 | Syntax | Description |
@@ -11,7 +82,7 @@ Glide is _super cool_ for these reasons:
 | Header | Title |
 | Paragraph | Text |
 
-
+---
 ## BOLD
 I love **bold text**.
 I love __bold text__.
