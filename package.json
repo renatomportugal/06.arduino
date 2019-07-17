@@ -1,0 +1,19 @@
+{
+  "name": "arduino",
+  "version": "1.0.0",
+  "description": "This is a test directory to learn git and node",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renatomportugal/arduino.git"
+  },
+  "author": "Renato Portugal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/renatomportugal/arduino/issues"
+  },
+  "homepage": "https://github.com/renatomportugal/arduino#readme"
+}
