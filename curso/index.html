@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>1</title>
+  <title>2</title>
   <!-- mobile meta tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </style>
@@ -25,7 +25,9 @@ $(document).ready(function() {
             url : "abrirTxt.txt",
             dataType: "text",
             success : function (data) {
+                console.log(data);
                 $("#text").html(data);
+
             }
         });
     });
