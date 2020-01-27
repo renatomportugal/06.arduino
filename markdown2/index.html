@@ -4,7 +4,79 @@
   <meta charset="UTF-8">
   <title>CodePen - Live Markdown Editor</title>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.css'>
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/theme/material.css'><link rel="stylesheet" href="./style.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/theme/material.css'>
+<style>
+/* helpers/grid.css */
+
+.grid {
+  width: 100%;
+}
+
+.grid__row {
+  display: flex;
+}
+
+.grid__col {
+  flex-grow: 1;
+}
+
+.grid__col--4 {
+  width: calc(100% / 3);
+}
+
+/* layout/base.css */
+
+* {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  line-height: 1.5;
+  margin: 0;
+  min-height: 100%;
+}
+
+/* modules/code.css */
+
+.pre {
+  height: 100vh;
+}
+
+/* modules/embed.css */
+
+iframe {
+  border: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* modules/form.css */
+
+textarea {
+  background: none;
+  border: 0;
+  height: 100vh;
+  margin: 0;
+  padding: 0.5em;
+  width: 100%;
+}
+
+/* vendor/codemirror.css */
+
+.CodeMirror {
+  height: 100vh;
+}
+
+.CodeMirror-readonly .CodeMirror-cursor {
+  display: none;
+}
+</style>
 
 </head>
 <body>
@@ -36,7 +108,73 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/mode/xml/xml.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/addon/edit/matchbrackets.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.js'></script><script type="module" src="./script.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.js'></script>
+
+<script>
+  
+class App {
+  constructor(options) {
+    this.init();
+    this.addEventListeners();
+  }
+
+  init() {
+    const input = this.input = CodeMirror.fromTextArea(document.querySelector('.js-input'), {
+      lineNumbers: true,
+      matchBrackets: true,
+      mode: 'text/x-markdown',
+      theme: 'material' });
+
+
+    const output = this.output = CodeMirror.fromTextArea(document.querySelector('.js-output'), {
+      lineNumbers: true,
+      matchBrackets: true,
+      mode: 'text/html',
+      theme: 'material',
+      readOnly: true });
+
+
+    this.preview = document.querySelector('.js-preview');
+
+    output.getWrapperElement().classList.add('CodeMirror-readonly');
+
+	$.ajax({
+		url : "abrirTxt2.txt",
+		dataType: "text",
+		success : function (data) {
+			//console.log(data);
+			input.setValue(data);
+		}
+	});
+
+	//input.setValue("234");
+
+    this.compile(input.getValue());
+  }
+
+  compile(source) {
+    const previewDocument = this.preview.contentDocument;
+    const output = marked(source);
+
+    previewDocument.open();
+    previewDocument.write(output);
+    previewDocument.close();
+
+    this.output.setValue(output);
+  }
+
+  addEventListeners() {
+    const { input } = this;
+    let delay;
+
+    input.on('change', () => {
+      clearTimeout(delay);
+      delay = setTimeout(() => this.compile(input.getValue()), 300);
+    });
+  }}
+
+new App();
+</script>
 
 </body>
 </html>
