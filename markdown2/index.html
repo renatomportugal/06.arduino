@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Live Markdown Editor</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/theme/material.css'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+
+<!-- <script src='assets/js/core/jquery-3.1.0.min'></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- partial:index.partial.html -->
+<div class="grid">
+
+  <div class="grid__row">
+
+    <div class="grid__col grid__col--4">
+      <textarea class="js-input">
+	  </textarea>
+    </div>
+
+    <div class="grid__col grid__col--4">
+      <textarea class="js-output"></textarea>
+    </div>
+    <div class="grid__col grid__col--4">
+      <iframe class="js-preview"></iframe>
+    </div>
+
+  </div>
+
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/mode/xml/xml.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/addon/edit/matchbrackets.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.js'></script><script type="module" src="./script.js"></script>
+
+</body>
+</html>
