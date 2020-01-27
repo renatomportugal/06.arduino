@@ -1,35 +1,31 @@
-<!-- TOC -->
-
-- [Task Lists](#task-lists)
-- [Footnotes](#footnotes)
-- [Syntax Highlighting](#syntax-highlighting)
-- [Fenced Code Blocks](#fenced-code-blocks)
-- [Escaping Characters](#escaping-characters)
-    - [backslash](#backslash)
-- [pound sign](#pound-sign)
-- [Links](#links)
-    - [Tiles](#tiles)
-    - [URLs and Email Addresses](#urls-and-email-addresses)
-    - [Formatting Links](#formatting-links)
-- [TABELA](#tabela)
-    - [BOLD](#bold)
-    - [ITALIC](#italic)
-    - [BOLD AND ITALIC](#bold-and-italic)
-    - [Blockquotes](#blockquotes)
-        - [Blockquotes with Multiple Paragraphs](#blockquotes-with-multiple-paragraphs)
-        - [Nested Blockquotes](#nested-blockquotes)
-        - [Blockquotes with Other Elements](#blockquotes-with-other-elements)
-- [Lists](#lists)
-    - [Ordered Lists](#ordered-lists)
-    - [Nested Lists](#nested-lists)
-    - [Unordered Lists](#unordered-lists)
-    - [Nesting List Items](#nesting-list-items)
-    - [Code](#code)
-            - [Heading level 4](#heading-level-4)
-                - [Heading level 5](#heading-level-5)
-                    - [Heading level 6](#heading-level-6)
-
-<!-- /TOC -->
+- [1. Task Lists](#1-task-lists)
+- [2. Footnotes](#2-footnotes)
+- [3. Syntax Highlighting](#3-syntax-highlighting)
+- [4. Fenced Code Blocks](#4-fenced-code-blocks)
+- [5. Escaping Characters](#5-escaping-characters)
+  - [5.1. backslash](#51-backslash)
+- [6. pound sign](#6-pound-sign)
+- [7. Links](#7-links)
+  - [7.1. Tiles](#71-tiles)
+  - [7.2. URLs and Email Addresses](#72-urls-and-email-addresses)
+  - [7.3. Formatting Links](#73-formatting-links)
+- [8. TABELA](#8-tabela)
+  - [8.1. BOLD](#81-bold)
+  - [8.2. ITALIC](#82-italic)
+  - [8.3. BOLD AND ITALIC](#83-bold-and-italic)
+  - [8.4. Blockquotes](#84-blockquotes)
+    - [8.4.1. Blockquotes with Multiple Paragraphs](#841-blockquotes-with-multiple-paragraphs)
+    - [8.4.2. Nested Blockquotes](#842-nested-blockquotes)
+    - [8.4.3. Blockquotes with Other Elements](#843-blockquotes-with-other-elements)
+- [9. Lists](#9-lists)
+  - [9.1. Ordered Lists](#91-ordered-lists)
+  - [9.2. Nested Lists](#92-nested-lists)
+  - [9.3. Unordered Lists](#93-unordered-lists)
+  - [9.4. Nesting List Items](#94-nesting-list-items)
+  - [9.5. Code](#95-code)
+      - [9.5.1. Heading level 4](#951-heading-level-4)
+        - [9.5.1.1. Heading level 5](#9511-heading-level-5)
+          - [9.5.1.1.1. Heading level 6](#95111-heading-level-6)
 
 # 1. Task Lists
 - [x] Write the press release
@@ -213,7 +209,3 @@ At the command prompt, type `nano`.
 ##### 9.5.1.1. Heading level 5
 
 ###### 9.5.1.1.1. Heading level 6
-
-
-
-
