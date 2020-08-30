@@ -38,6 +38,16 @@ sudo usermod -a -G dialout <username>
 ```
 Faça o logout e o login:<br>
 
+# vcpkg
+```
+git clone  https://github.com/Microsoft/vcpkg
+cd vcpkg
+./bootstrap-vcpkg.sh
+sudo yum install centos-release-scl
+sudo yum install devtoolset-7
+scl enable devtoolset-7 bash
+```
+
 # Task Lists
 - [x] Write the press release
 - [ ] Update the website
