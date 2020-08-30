@@ -1,11 +1,41 @@
 https://renatomportugal.github.io/arduino/
 
 # Instalação
-## Placa não genuína
+## Windows
+### Placa não genuína
 Algumas placas não são reconhecidas pelo windows e deve seguir:<br>
 Painel de controle, Sistema, Gerenciador de Dispositivos. Veja qual foi o dispositivo que foi iniciado.<br>
 Procure o driver dentro da pasta do arduino. Terá de fazer o passo duas vezes (FTDI e USB).<br>
 
+## Linux
+https://www.arduino.cc/en/Main/Software<br>
+
+### Placa não genuína
+Pra saber se é 32 ou 64 (x86_64) bits
+```
+uname -m
+```
+Baixe o arquivo manualmente e extraia numa pasta:<br>
+
+Descompactar, acessar e instalar:<br>
+```
+cd arduino-1.8.13/
+./install.sh
+```
+Dar permissão na porta serial:<br>
+```
+ls -l /dev/ttyACM*
+ls -l /dev/ttyUSB*
+```
+Vai aparecer algo como:<br>
+```
+crw-rw----. 1 root dialout 188, 0 Ago 29 21:34 /dev/ttyUSB0
+```
+Dar acesso ao grupo:<br>
+```
+sudo usermod -a -G dialout <username>
+```
+Faça o logout e o login:<br>
 
 # Task Lists
 - [x] Write the press release
