@@ -1,5 +1,12 @@
 https://renatomportugal.github.io/arduino/
 
+# Instalação
+## Placa não genuína
+Algumas placas não são reconhecidas pelo windows e deve seguir:<br>
+Painel de controle, Sistema, Gerenciador de Dispositivos. Veja qual foi o dispositivo que foi iniciado.<br>
+Procure o driver dentro da pasta do arduino. Terá de fazer o passo duas vezes (FTDI e USB).<br>
+
+
 # Task Lists
 - [x] Write the press release
 - [ ] Update the website
