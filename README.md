@@ -9,6 +9,7 @@ Procure o driver dentro da pasta do arduino. Terá de fazer o passo duas vezes (
 
 ## Linux
 https://www.arduino.cc/en/Main/Software<br>
+https://hardwarelivreusp.org/tutoriais/2016/11/20/arduino-4linux/<br>
 
 ### Placa não genuína
 Pra saber se é 32 ou 64 (x86_64) bits
