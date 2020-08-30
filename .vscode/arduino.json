@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "port": "/dev/ttyUSB0",
+    "programmer": "AVRISP mkII",
+    "sketch": "SHIELDS/Sh04_PAINEL/Sh04_PAINEL.ino"
+}

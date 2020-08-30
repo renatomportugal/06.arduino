@@ -1,0 +1,4 @@
+{
+    "arduino.defaultBaudRate": 9600,
+    "arduino.enableUSBDetection": true 
+}
