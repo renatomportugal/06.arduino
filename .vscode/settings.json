@@ -1,4 +1,5 @@
 {
     "arduino.defaultBaudRate": 9600,
-    "arduino.enableUSBDetection": true 
+    "arduino.enableUSBDetection": true,
+    "C_Cpp.errorSquiggles": "Disabled"
 }
