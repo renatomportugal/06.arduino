@@ -28,7 +28,8 @@ void setup()
     lcd.begin(16, 2);
     // Print a message to the LCD.
     lcd.print("ohms");
-    teclarFrase("sos");
+    //teclarFrase("sos");
+    playDah();
 }
 
 void loop()
@@ -75,6 +76,13 @@ void loop()
   lcd.setCursor(0, 1);
   lcd.print(mediaTotal);
   lcd.print("      ");
+
+  if (mediaTotal <= 5){
+    playDit();
+    playDit();
+    playDit();
+    }
+  
 }else{
   lcd.setCursor(0, 1);
   lcd.print("aberto");
