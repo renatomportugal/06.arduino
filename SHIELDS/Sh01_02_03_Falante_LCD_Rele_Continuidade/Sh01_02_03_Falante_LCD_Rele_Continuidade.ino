@@ -35,45 +35,45 @@ int amostra1, amostra2, amostra3, amostra4, amostra5, resultado, mediaTotal;
 
 int Medir(){
   //PRIMEIRA LEITURA
-      calculo = float(analog*5/1024);
-      amostra1 = float(rRef *(5-calculo)/calculo);
-      delay(25);
-       
-      //SEGUNDA LEITURA
-      calculo = float(analog*5/1024);
-      amostra2 = float(rRef *(5-calculo)/calculo);
-      delay(25);
-       
-      //TERCEIRA LEITURA
-      calculo = float(analog*5/1024);
-      amostra3 = float(rRef *(5-calculo)/calculo);
-      delay(25);
-       
-      //QUARTA LEITURA
-      calculo = float(analog*5/1024);
-      amostra4 = float(rRef *(5-calculo)/calculo);
-      delay(25);
-       
-      //QUINTA LEITURA
-      calculo = float(analog*5/1024);
-      amostra5 = float(rRef *(5-calculo)/calculo);
-      delay(25);
-       
-      //MEDIA DAS LEITURAS
-      mediaTotal = ((amostra1+amostra2+amostra3+amostra4+amostra5)/5);
-      
-      //IMPRIME NO LCD
-      lcd.setCursor(0, 1);
-      lcd.print(mediaTotal);
-      lcd.print("      ");
+  calculo = float(analog*5/1024);
+  amostra1 = float(rRef *(5-calculo)/calculo);
+  delay(25);
+    
+  //SEGUNDA LEITURA
+  calculo = float(analog*5/1024);
+  amostra2 = float(rRef *(5-calculo)/calculo);
+  delay(25);
+    
+  //TERCEIRA LEITURA
+  calculo = float(analog*5/1024);
+  amostra3 = float(rRef *(5-calculo)/calculo);
+  delay(25);
+    
+  //QUARTA LEITURA
+  calculo = float(analog*5/1024);
+  amostra4 = float(rRef *(5-calculo)/calculo);
+  delay(25);
+    
+  //QUINTA LEITURA
+  calculo = float(analog*5/1024);
+  amostra5 = float(rRef *(5-calculo)/calculo);
+  delay(25);
+    
+  //MEDIA DAS LEITURAS
+  mediaTotal = ((amostra1+amostra2+amostra3+amostra4+amostra5)/5);
 
-      return mediaTotal;
-  }
+  //IMPRIME NO LCD
+  lcd.setCursor(0, 1);
+  lcd.print(mediaTotal);
+  lcd.print("      ");
+
+  return mediaTotal;
+}
 
 void setup()
 {
 
-// Shield 02
+  // Shield 02
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   // Print a message to the LCD.
@@ -82,7 +82,7 @@ void setup()
   teclarFrase("sos");
   //playDah();
   
-// Shield 03
+  // Shield 03
   pinMode(Rele_01, OUTPUT);
   pinMode(Rele_02, OUTPUT);
   //LIGAR RELE 01
@@ -93,17 +93,19 @@ void setup()
 void loop()
 {
   tempo = millis();
-  analog = analogRead(5);
   
   if(tempo%500==0){
-    
+    analog = analogRead(5);
     lcd.setCursor(12, 1);
     //lcd.print(5*analog/1024);
     lcd.print(int(analog));
     lcd.print("   ");
 
-    if (analog != 0){
-      
+    if (analog == 0){
+      lcd.setCursor(0, 1);
+      lcd.print("aberto");
+      lcd.print("      ");
+    }else{
       lcd.setCursor(0, 0);
       lcd.print("      ");
 
@@ -123,7 +125,7 @@ void loop()
             if(leitura == leituraAnterior){
               cont++;
               if(cont == 5){
-                leituraEstavel = true;
+                //leituraEstavel = true;
               }
             }else{
               leituraAnterior = leitura;
@@ -139,10 +141,6 @@ void loop()
         lcd.setCursor(0, 0);
         lcd.print(i);
       }      
-    }else{
-      lcd.setCursor(0, 1);
-      lcd.print("aberto");
-      lcd.print("      ");
     }
   }
 }
