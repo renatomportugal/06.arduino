@@ -32,6 +32,7 @@ long tempo;
 
 float analog, calculo;
 int intAnalog, amostra1, amostra2, amostra3, amostra4, amostra5, resultado, mediaTotal;
+int valorDireto, valorInverso;
 bool hold;
 
 int Medir(){
@@ -113,7 +114,12 @@ void loop()
         lcd.setCursor(0, 1);
         lcd.print("aberto");
         lcd.print("      ");
+
+        //pra que isso?
         hold == false;
+
+        digitalWrite(Rele_01, LOW);
+        digitalWrite(Rele_02, LOW);
       }else{
         lcd.setCursor(0, 0);
         lcd.print("      ");
@@ -122,7 +128,7 @@ void loop()
         int leiturasRestantes = qtdLeituras;
         int cont = 0;
         bool leituraEstavel = false;
-        int leitura, leituraAnterior, valorDireto, valorInverso;
+        int leitura, leituraAnterior;
 
         for(int i = 0; i <= qtdLeituras; i++){
           if(leiturasRestantes >= (5 - cont)){
@@ -154,6 +160,8 @@ void loop()
           hold = true;
 
           InverterLeitura();
+
+          
         }
 
       }
