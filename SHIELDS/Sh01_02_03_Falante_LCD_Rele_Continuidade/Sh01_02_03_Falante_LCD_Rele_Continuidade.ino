@@ -116,32 +116,32 @@ void loop()
       int leitura, leituraAnterior;
 
       for(int i = 0; i <= qtdLeituras; i++){
-        if (leituraEstavel == false){
-          if(leiturasRestantes >= (5 - cont)){
-            leitura = Medir();
-            if(i < 1){
-              leituraAnterior = leitura;
-            }
-            if(leitura == leituraAnterior){
-              cont++;
-              if(cont == 5){
-                leituraEstavel = true;
-                leiturasRestantes = 0;
-              }
-            }else{
-              leituraAnterior = leitura;
-              cont = 0;
-            }
+        if(leiturasRestantes >= (5 - cont)){
+          leitura = Medir();
+          if(i < 1){
+            leituraAnterior = leitura;
           }
-        }else{
-          playDit();
-          playDit();
-          playDit();
+          if(leitura == leituraAnterior){
+            cont++;
+            if(cont == 5){
+              leituraEstavel = true;
+              leiturasRestantes = 0;
+            }
+          }else{
+            leituraAnterior = leitura;
+            cont = 0;
+          }
         }
+
         leiturasRestantes--;
         lcd.setCursor(0, 0);
         lcd.print(i);
-      }      
+      } 
+      if (leituraEstavel == true){     
+        playDit();
+        playDit();
+        playDit();
+      }
     }
   }
 }
