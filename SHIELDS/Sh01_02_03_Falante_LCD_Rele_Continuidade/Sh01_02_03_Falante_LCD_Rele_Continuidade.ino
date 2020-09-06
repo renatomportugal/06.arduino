@@ -32,6 +32,7 @@ long tempo;
 
 float analog, calculo;
 int amostra1, amostra2, amostra3, amostra4, amostra5, resultado, mediaTotal;
+bool hold;
 
 int Medir(){
   //PRIMEIRA LEITURA
@@ -101,46 +102,59 @@ void loop()
     lcd.print(int(analog));
     lcd.print("   ");
 
-    if (analog == 0){
-      lcd.setCursor(0, 1);
-      lcd.print("aberto");
-      lcd.print("      ");
-    }else{
-      lcd.setCursor(0, 0);
-      lcd.print("      ");
+    if (hold == false){
+      if (analog == 0){
+        lcd.setCursor(0, 1);
+        lcd.print("aberto");
+        lcd.print("      ");
+        hold == false;
+      }else{
+        lcd.setCursor(0, 0);
+        lcd.print("      ");
 
-      int qtdLeituras = 20;
-      int leiturasRestantes = qtdLeituras;
-      int cont = 0;
-      bool leituraEstavel = false;
-      int leitura, leituraAnterior;
+        int qtdLeituras = 20;
+        int leiturasRestantes = qtdLeituras;
+        int cont = 0;
+        bool leituraEstavel = false;
+        int leitura, leituraAnterior, valorDireto, valorInverso;
 
-      for(int i = 0; i <= qtdLeituras; i++){
-        if(leiturasRestantes >= (5 - cont)){
-          leitura = Medir();
-          if(i < 1){
-            leituraAnterior = leitura;
-          }
-          if(leitura == leituraAnterior){
-            cont++;
-            if(cont == 5){
-              leituraEstavel = true;
-              leiturasRestantes = 0;
+        for(int i = 0; i <= qtdLeituras; i++){
+          if(leiturasRestantes >= (5 - cont)){
+            leitura = Medir();
+            if(i < 1){
+              leituraAnterior = leitura;
             }
-          }else{
-            leituraAnterior = leitura;
-            cont = 0;
+            if(leitura == leituraAnterior){
+              cont++;
+              if(cont == 5){
+                leituraEstavel = true;
+                leiturasRestantes = 0;
+                valorDireto = leitura;
+              }
+            }else{
+              leituraAnterior = leitura;
+              cont = 0;
+            }
           }
+
+          leiturasRestantes--;
+          lcd.setCursor(0, 0);
+          lcd.print(i);
+        } 
+        if (leituraEstavel == true){
+          playDit();
+          playDit();
+          playDit();
+          hold = true;
         }
 
-        leiturasRestantes--;
-        lcd.setCursor(0, 0);
-        lcd.print(i);
-      } 
-      if (leituraEstavel == true){     
-        playDit();
-        playDit();
-        playDit();
+      }
+    }else{
+      if (analog == 0){
+        lcd.setCursor(0, 1);
+        lcd.print("aberto");
+        lcd.print("      ");
+        hold == false;
       }
     }
   }
