@@ -30,8 +30,8 @@ int Rele_02 = 5;
 //__________________________________________
 long tempo;
 
-float calculo;
-int analog, amostra1, amostra2, amostra3, amostra4, amostra5, resultado, mediaTotal;
+float analog, calculo;
+int intAnalog, amostra1, amostra2, amostra3, amostra4, amostra5, resultado, mediaTotal;
 bool hold;
 
 int Medir(){
@@ -97,13 +97,14 @@ void loop()
   
   if(tempo%500==0){
     analog = analogRead(5);
+    intAnalog = analog;
     lcd.setCursor(12, 1);
     //lcd.print(5*analog/1024);
-    lcd.print(analog);
+    lcd.print(intAnalog);
     lcd.print("   ");
 
     if (hold == false){
-      if (analog == 0){
+      if (intAnalog == 0){
         lcd.setCursor(0, 1);
         lcd.print("aberto");
         lcd.print("      ");
@@ -150,20 +151,11 @@ void loop()
 
       }
     }else{
-
-      lcd.setCursor(0, 0);
-        lcd.print(analog);
-        lcd.print("      ");
-
-        lcd.setCursor(0, 1);
-        lcd.print(hold);
-        lcd.print("      ");
-      
-      if (analog == 0){
+      if (intAnalog == 0){
         lcd.setCursor(0, 1);
         lcd.print("aberto");
         lcd.print("      ");
-        hold == false;
+        hold = false;
       }
       
     }
