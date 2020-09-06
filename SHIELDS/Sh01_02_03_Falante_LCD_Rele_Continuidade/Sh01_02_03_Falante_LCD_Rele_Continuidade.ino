@@ -126,6 +126,7 @@ void loop()
               cont++;
               if(cont == 5){
                 leituraEstavel = true;
+                leiturasRestantes = 0;
               }
             }else{
               leituraAnterior = leitura;
