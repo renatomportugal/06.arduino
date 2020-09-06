@@ -71,6 +71,11 @@ int Medir(){
   return mediaTotal;
 }
 
+int InverterLeitura(){
+  digitalWrite(Rele_01, HIGH);
+  digitalWrite(Rele_02, HIGH);
+}
+
 void setup()
 {
 
@@ -147,6 +152,8 @@ void loop()
           playDit();
           playDit();
           hold = true;
+
+          InverterLeitura();
         }
 
       }
