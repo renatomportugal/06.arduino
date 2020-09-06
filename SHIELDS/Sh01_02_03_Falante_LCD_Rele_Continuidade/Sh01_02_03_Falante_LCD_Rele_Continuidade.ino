@@ -33,7 +33,7 @@ long tempo;
 float analog, calculo;
 int intAnalog, amostra1, amostra2, amostra3, amostra4, amostra5, resultado, mediaTotal;
 int valorDireto, valorInverso;
-bool hold;
+bool hold, holdInverso;
 
 int Medir(){
   //PRIMEIRA LEITURA
@@ -171,7 +171,53 @@ void loop()
         lcd.print("aberto");
         lcd.print("      ");
         hold = false;
+      }else{
+        if (holdInverso == false){
+          // Neste ponto já está invertido, faremos nova leitura e guardar no valorInverso.
+          lcd.setCursor(0, 0);
+          lcd.print("      ");
+
+          int qtdLeituras = 20;
+          int leiturasRestantes = qtdLeituras;
+          int cont = 0;
+          bool leituraEstavel = false;
+          int leitura, leituraAnterior;
+
+          for(int i = 0; i <= qtdLeituras; i++){
+            if(leiturasRestantes >= (5 - cont)){
+              leitura = Medir();
+              if(i < 1){
+                leituraAnterior = leitura;
+              }
+              if(leitura == leituraAnterior){
+                cont++;
+                if(cont == 5){
+                  leituraEstavel = true;
+                  leiturasRestantes = 0;
+                  valorInverso = leitura;
+                }
+              }else{
+                leituraAnterior = leitura;
+                cont = 0;
+              }
+            }
+
+            leiturasRestantes--;
+            lcd.setCursor(0, 0);
+            lcd.print(i);
+          }
+          if (leituraEstavel == true){
+            playDit();
+            playDit();
+            playDit();
+            holdInverso = true;
+            //InverterLeitura();
+          }
+        }
       }
+
+      
+
       
     }
   }
