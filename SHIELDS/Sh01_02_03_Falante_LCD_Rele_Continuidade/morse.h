@@ -1,3 +1,7 @@
+/*
+ * Como usar:
+ */
+ 
 // Pino do falante
 #define falante  3
 
