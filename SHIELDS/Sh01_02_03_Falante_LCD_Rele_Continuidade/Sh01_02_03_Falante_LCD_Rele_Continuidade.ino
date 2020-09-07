@@ -36,39 +36,33 @@ int valorDireto, valorInverso;
 bool hold, holdInverso;
 
 int Medir(){
-  //PRIMEIRA LEITURA
+  //_PRIMEIRA LEITURA
   calculo = float(analog*5/1024);
   amostra1 = float(rRef *(5-calculo)/calculo);
   delay(25);
     
-  //SEGUNDA LEITURA
+  //_SEGUNDA LEITURA
   calculo = float(analog*5/1024);
   amostra2 = float(rRef *(5-calculo)/calculo);
   delay(25);
     
-  //TERCEIRA LEITURA
+  //_TERCEIRA LEITURA
   calculo = float(analog*5/1024);
   amostra3 = float(rRef *(5-calculo)/calculo);
   delay(25);
     
-  //QUARTA LEITURA
+  //_QUARTA LEITURA
   calculo = float(analog*5/1024);
   amostra4 = float(rRef *(5-calculo)/calculo);
   delay(25);
     
-  //QUINTA LEITURA
+  //_QUINTA LEITURA
   calculo = float(analog*5/1024);
   amostra5 = float(rRef *(5-calculo)/calculo);
   delay(25);
     
-  //MEDIA DAS LEITURAS
+  //_MEDIA DAS LEITURAS
   mediaTotal = ((amostra1+amostra2+amostra3+amostra4+amostra5)/5);
-
-  //IMPRIME NO LCD
-  lcd.setCursor(0, 1);
-  lcd.print(mediaTotal);
-  lcd.print("      ");
-
   return mediaTotal;
 }
 
@@ -85,7 +79,7 @@ void setup()
   lcd.begin(16, 2);
   // Print a message to the LCD.
   lcd.setCursor(0, 0);
-  lcd.print("      ");
+  // lcd.print("      ");
   teclarFrase("sos");
   //playDah();
   
@@ -103,7 +97,7 @@ void loop()
   
   if(tempo%500==0){
     analog = analogRead(5);
-    intAnalog = analog;
+    intAnalog = int(analog);
     lcd.setCursor(12, 1);
     //lcd.print(5*analog/1024);
     lcd.print(intAnalog);
@@ -111,19 +105,16 @@ void loop()
 
     if (hold == false){
       if (intAnalog == 0){
-        lcd.setCursor(0, 1);
-        lcd.print("aberto");
-        lcd.print("      ");
+        // lcd.setCursor(0, 1);
+        // lcd.print("aberto");
+        // lcd.print("      ");
 
-        //pra que isso?
         hold == false;
+        holdInverso = false;
 
         digitalWrite(Rele_01, LOW);
         digitalWrite(Rele_02, LOW);
       }else{
-        lcd.setCursor(0, 0);
-        lcd.print("      ");
-
         int qtdLeituras = 20;
         int leiturasRestantes = qtdLeituras;
         int cont = 0;
@@ -142,16 +133,26 @@ void loop()
                 leituraEstavel = true;
                 leiturasRestantes = 0;
                 valorDireto = leitura;
+                if(leitura >= 0){
+                  lcd.setCursor(0, 0);
+                  lcd.print(leitura);
+                  lcd.print("   ");
+                  lcd.setCursor(0, 1);
+                  lcd.print("SEM ");
+                }else{
+                  lcd.setCursor(0, 0);
+                  lcd.print("OUT ");
+                  lcd.print("   ");
+                  lcd.setCursor(0, 1);
+                  lcd.print("SEM ");
+                }
               }
             }else{
               leituraAnterior = leitura;
               cont = 0;
             }
           }
-
           leiturasRestantes--;
-          lcd.setCursor(0, 0);
-          lcd.print(i);
         } 
         if (leituraEstavel == true){
           playDit();
@@ -162,20 +163,24 @@ void loop()
           InverterLeitura();
 
           
+        }else{
+          lcd.setCursor(0, 0);
+          lcd.print("def.");
         }
 
       }
     }else{
       if (intAnalog == 0){
-        lcd.setCursor(0, 1);
-        lcd.print("aberto");
-        lcd.print("      ");
+        // lcd.setCursor(0, 1);
+        // lcd.print("aberto");
+        // lcd.print("      ");
         hold = false;
+        holdInverso = false;
       }else{
         if (holdInverso == false){
           // Neste ponto já está invertido, faremos nova leitura e guardar no valorInverso.
-          lcd.setCursor(0, 0);
-          lcd.print("      ");
+          // lcd.setCursor(0, 0);
+          // lcd.print("      ");
 
           int qtdLeituras = 20;
           int leiturasRestantes = qtdLeituras;
@@ -186,6 +191,7 @@ void loop()
           for(int i = 0; i <= qtdLeituras; i++){
             if(leiturasRestantes >= (5 - cont)){
               leitura = Medir();
+              
               if(i < 1){
                 leituraAnterior = leitura;
               }
@@ -195,6 +201,14 @@ void loop()
                   leituraEstavel = true;
                   leiturasRestantes = 0;
                   valorInverso = leitura;
+                  if(leitura >= 0){
+                    lcd.setCursor(0, 1);
+                    lcd.print(leitura);
+                    lcd.print("   ");
+                  }else{
+                    lcd.setCursor(0, 1);
+                    lcd.print("OUT ");
+                  }
                 }
               }else{
                 leituraAnterior = leitura;
@@ -203,8 +217,8 @@ void loop()
             }
 
             leiturasRestantes--;
-            lcd.setCursor(0, 0);
-            lcd.print(i);
+            // lcd.setCursor(0, 0);
+            // lcd.print(i);
           }
           if (leituraEstavel == true){
             playDit();
@@ -212,13 +226,19 @@ void loop()
             playDit();
             holdInverso = true;
             //InverterLeitura();
+          }else{
+            lcd.setCursor(0, 1);
+            lcd.print("def.");
+          }
+        }else{
+          if (intAnalog == 0){
+            // lcd.setCursor(0, 1);
+            // lcd.print("aberto");
+            // lcd.print("      ");
+            holdInverso = false;
           }
         }
       }
-
-      
-
-      
     }
   }
 }
