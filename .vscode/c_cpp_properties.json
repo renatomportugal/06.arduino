@@ -5,15 +5,23 @@
             "includePath": [
                 "/home/tcnct/Downloads/arduino-1.8.13/tools/**",
                 "/home/tcnct/Downloads/arduino-1.8.13/hardware/arduino/avr/**",
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\**",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\**",
+                "C:\\Program Files (x86)\\Arduino\\libraries\\**",
+                "C:\\Users\\win10\\Documents\\Arduino\\libraries\\**",
+                "C:\\Program Files (x86)\\Arduino\\tools\\**"
             ],
-            "defines": [],
+            "defines": [
+                "USBCON"
+            ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++14",
             "intelliSenseMode": "clang-x64",
             "forcedInclude": [
-                "/home/tcnct/Downloads/arduino-1.8.13/hardware/arduino/avr/cores/arduino/Arduino.h"
+                "/home/tcnct/Downloads/arduino-1.8.13/hardware/arduino/avr/cores/arduino/Arduino.h",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
             ]
         }
     ],
