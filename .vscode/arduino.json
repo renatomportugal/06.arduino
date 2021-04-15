@@ -1,6 +1,0 @@
-{
-    "board": "arduino:avr:uno",
-    "port": "COM3",
-    "programmer": "AVRISP mkII",
-    "sketch": "SHIELDS/Sh04_PAINEL/Sh04_PAINEL.ino"
-}
