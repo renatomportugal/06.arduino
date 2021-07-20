@@ -65,17 +65,23 @@ A5      - entrada
 ---ALARME
 Arduino - I/O
 A0      - saida
+
+REGRAS DE FUNCIONAMENTO
+1. Temos um sério problema de atraso de leitura entre o aquecimento e o valor do LM35.
+Para resolver limitaremos o acionamento da resistência por 3 segundos, e só ligará novamente com a autorização da leitura do termômetro.
+
+2.Antes de iniciar as operações deverá passar por uma rotina de testes.
 */
 
 /* 01. LEITURA DOS SENSORES E BOTOES */
-/* TERMOMETRO 1 */
+/* TERMOMETRO 1 - LAMP*/
 const int T1 = A4;
 int T1_leitura;
 int T1_temp;
 int T1_temp_anterior;
 int T1_temp_erro = 0;
 
-/* TERMOMETRO 2 */
+/* TERMOMETRO 2 - RESISTENCIA*/
 const int T2 = A5;
 int T2_leitura;
 int T2_temp;
