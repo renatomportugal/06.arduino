@@ -53,15 +53,22 @@ void loop()
  {
 
     VentMaxStatus = digitalRead(VentMax);
-    if(VentMaxStatus){
-        digitalWrite(LedVentMax, HIGH);
-    }else{
-        digitalWrite(LedVentMax, LOW);
-    }
 
     fanPot_leitura = analogRead(fanPot);
     map_fanPot_leitura = map(fanPot_leitura,0,1023,0,255);
-    analogWrite(A2, map_fanPot_leitura);
+
+    if((VentMaxStatus) || (map_fanPot_leitura > 127)){
+        digitalWrite(LedVentMax, HIGH);
+        analogWrite(A2, 255);
+    }else{
+        digitalWrite(LedVentMax, LOW);
+        analogWrite(A2, 0);
+    }
+
+    
+
+    
+    // analogWrite(A2, map_fanPot_leitura);
 
  SensorPulsTijd = pulseIn(fanTach, LOW);
  double frequency = 1000000/SensorPulsTijd;
