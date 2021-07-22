@@ -12,6 +12,13 @@ int map_fanPot_leitura = 0;
 //Precisa ser feito uma ligação com TIL117 e TIP122 ou TIP127
 int Ventilador = 6;
 
+//Botão VentMax
+int VentMax = 2;
+int VentMaxStatus = 0;
+
+//LedVentMax
+int LedVentMax = 1;
+
 unsigned long SensorPulsTijd;
 
 //LCD
@@ -29,8 +36,12 @@ void setup()
     pinMode(fanTach, INPUT);
     pinMode(fanPot, INPUT);
 
+    pinMode(VentMax, INPUT);
+
     pinMode(Ventilador, OUTPUT);
     digitalWrite(fanTach,HIGH);
+    
+    pinMode(LedVentMax, OUTPUT);
 
     //LIGA O VENTILADOR NA VELOCIDADE MAXIMA
     digitalWrite(Ventilador, HIGH);
@@ -40,6 +51,13 @@ void setup()
 
 void loop()
  {
+
+    VentMaxStatus = digitalRead(VentMax);
+    if(VentMaxStatus){
+        digitalWrite(LedVentMax, HIGH);
+    }else{
+        digitalWrite(LedVentMax, LOW);
+    }
 
     fanPot_leitura = analogRead(fanPot);
     map_fanPot_leitura = map(fanPot_leitura,0,1023,0,255);
