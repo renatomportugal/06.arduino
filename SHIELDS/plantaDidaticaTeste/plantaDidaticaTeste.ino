@@ -38,13 +38,7 @@ Vermelho - FanPos  - --   - Recebe 12v do MOC
 Preto    - FanNeg  - --   - Ligado ao Terra
 
 
----LCD
-D13 - 
-D12 - 
-D11 - 
-D10 - 
-D09 - 
-D08 - 
+
 
 ---RESISTENCIA 110v
 Arduino - I/O   - Botão
@@ -66,6 +60,27 @@ A5      - entrada
 Arduino - I/O
 A0      - saida
 
+00.1 - Ligação Física
+---LCD
+Arduino	LCD
+D13		RS
+D12		E
+D11		DB4
+D10		DB5
+D09		DB6
+D08		DB7
+
+Ligar: 
+RW no GND
+V0 -> 220 Ohm -> GND
+VDD -> 5v
+VSS -> GND
+
+---Alarme
+A0 -> Alarme
+
+
+
 REGRAS DE FUNCIONAMENTO
 1. Temos um sério problema de atraso de leitura entre o aquecimento e o valor do LM35.
 Para resolver limitaremos o acionamento da resistência por 3 segundos, e só ligará novamente com a autorização da leitura do termômetro.
@@ -74,6 +89,15 @@ Para resolver limitaremos o acionamento da resistência por 3 segundos, e só li
 */
 
 /* 01. LEITURA DOS SENSORES E BOTOES */
+//LCD
+int RS = 13;
+int E = 12;
+int DB4 = 11;
+int DB5 = 10;
+int DB6 = 9;
+int DB7 = 8;
+LiquidCrystal lcd(RS, E, DB4, DB5, DB6, DB7);
+
 /* TERMOMETRO 1 - LAMP*/
 const int T1 = A4;
 int T1_leitura;
@@ -87,15 +111,6 @@ int T2_leitura;
 int T2_temp;
 int T2_temp_anterior;
 int T2_temp_erro;
-
-//LCD
-int RS = 13;
-int E = 12;
-int DB4 = 11;
-int DB5 = 10;
-int DB6 = 9;
-int DB7 = 8;
-LiquidCrystal lcd(RS, E, DB4, DB5, DB6, DB7);
 
 /* BOTOES */
 int B02_D3_AUTO = 3;
@@ -248,8 +263,8 @@ int temp_delay;
 
 long TempoTotal, TempoCiclo;
 
+//__INI setup_______________________________
 void setup() {
-
 /* BOTOES */
 pinMode(FanTach, INPUT);
 digitalWrite(FanTach,HIGH);
@@ -302,301 +317,29 @@ analogWrite(FanPWM, FanSpeed_Valor);
 	//LEITURA T2
     T2_leitura = analogRead(T2);
     T2_temp_anterior = (float(T2_leitura)*5/(1023))/0.01;
+
+	Teste();
 }
+//__FIM setup_______________________________
 
 void loop() {
-//TEMPORIZADOR
-  TempoTotal = millis();
-  TempoCiclo = 0;
-  TempoCiclo = millis();  
+	//TEMPORIZADOR
+	TempoTotal = millis();
+	TempoCiclo = 0;
+	TempoCiclo = millis();
 
-//CICLO 100 milisegundos
-if ((TempoTotal % 500) == 1){
-	SensorPulsTijd = pulseIn(FanTach, LOW);
-	FanFrequency = 1000000/SensorPulsTijd;
-	FanRPM = 1000*FanFrequency/60;  
+	//CICLO 500 milisegundos
+	if ((TempoTotal % 500) == 1){
+		SensorPulsTijd = pulseIn(FanTach, LOW);
+		FanFrequency = 1000000/SensorPulsTijd;
+		FanRPM = 1000*FanFrequency/60;  
 
-	if (FanRPM == 0){
-	  lcd.setCursor(0, 0);
-	  lcd.print("RPM: 0   ");
-	}  
+		lcd.setCursor(0, 0);
+		lcd.print(FanRPM); 
 
-	//Muda velocidade só quando há mudança do botão B05 ou no modo AUTOMATICO
-	if (FanSpeed_Valor > FanSpeed_Manual){
-		if(FanSpeed_Valor != FanSpeed_Status){
-		FanSpeed_Status = FanSpeed_Valor;
+		// FanSpeed_Status = FanSpeed_Valor;
 		analogWrite(FanPWM, FanSpeed_Valor);
-		}
-	}else{
-		if(FanSpeed_Manual != FanSpeed_Status){
-		FanSpeed_Status = FanSpeed_Manual;
-		analogWrite(FanPWM, FanSpeed_Manual);
-		}
 	}
-	
-	if ((T1_temp_erro == 0) && (T2_temp_erro == 0)){
-		B02_D3_AUTO_Valor = digitalRead(B02_D3_AUTO);
-	}else{
-		B02_D3_AUTO_Valor = 0;
-		apito();
-	}
-
-}
-
-//CICLO 1 SEGUNDO - INICIO
-  if ((TempoTotal % 1000) == 1){
-	
-	//LEITURA T1
-    T1_leitura = analogRead(T1);
-    T1_temp = (float(T1_leitura)*5/(1023))/0.01;
-	
-	if (T1_temp > T1_temp_anterior){
-		if ((T1_temp - T1_temp_anterior) > 3 ){
-			T1_temp_erro = 1;
-		}else{
-			T1_temp_anterior = T1_temp;
-		}
-	}else{
-		if ((T1_temp_anterior - T1_temp) > 3 ){
-			T1_temp_erro = 1;
-		}else{
-			T1_temp_anterior = T1_temp;
-		}
-	}
-	
-	
-	//LEITURA T2
-    T2_leitura = analogRead(T2);
-    T2_temp = (float(T2_leitura)*5/(1023))/0.01;
-	
-	if (T2_temp > T2_temp_anterior){
-		if ((T2_temp - T2_temp_anterior) > 3 ){
-			T2_temp_erro = 1;
-		}else{
-			T2_temp_anterior = T2_temp;
-		}
-	}else{
-		if ((T2_temp_anterior - T2_temp) > 3 ){
-			T2_temp_erro = 1;
-		}else{
-			T2_temp_anterior = T2_temp;
-		}
-	}
-	
-    //IMPRIME TEMPERATURA NO LCD
-    lcd.setCursor(0, 1);
-    lcd.print("T1: ");
-    lcd.print(T1_temp);
-    lcd.print(" ");
-    lcd.print("T2: ");
-    lcd.print(T2_temp);
-
-
-	if (FanRPM < 1000){
-		lcd.setCursor(0, 0);
-		lcd.print("RPM: ");
-		lcd.print(FanRPM);
-		lcd.print(" ");			
-	}
-	
-	if ((FanRPM > 999) && (FanRPM < 3200)){
-		lcd.setCursor(0, 0);
-		lcd.print("RPM: ");
-		lcd.print(FanRPM);
-	}
-
-	//LED DE VELOCIDADE MÁXIMA DO VENTILADOR
-	if ((FanRPM > 2700) && (FanRPM < 3200)){
-	digitalWrite(LedVentMax,HIGH);
-	}else{
-	digitalWrite(LedVentMax,LOW); 
-	}
-
-//CICLO AUTOMATICO - INICIO
-if(B02_D3_AUTO_Status){
-
-//T1 - INICIO	
-  //AO CHEGAR NA TEMPERATURA DE 31 GRAUS A LAMPADA DESLIGA
-    if (T1_temp > 30){
-      if(B04_D4_LAMP_Status){
-        digitalWrite(B04_D4_LAMP,LOW);
-		B04_D4_LAMP_Status = 0;
-		B04_D4_LAMP_Ciclo_Descida = 1;
-      }
-    }
-  
-	//AO CHEGAR NA TEMPERATURA DE 28 GRAUS A LAMPADA LIGA
-      if (T1_temp < 29){
-        digitalWrite(B04_D4_LAMP,HIGH);
-        B04_D4_LAMP_Status = 1;
-		B04_D4_LAMP_Ciclo_Descida = 0;
-      }
-//T1 - FIM	
-
-//T2 - INICIO	
-	//AO CHEGAR NA TEMPERATURA DE 40 GRAUS A RESISTENCIA DESLIGA
-	//35 CHEGOU A 52
-	//31 CHEGOU A 48
-	//30 CHEGOU A 48
-
-    if (T2_temp > 30){
-		if(B03_D5_RES_Status){
-			digitalWrite(B03_D5_RES,LOW);
-			B03_D5_RES_Status = 0;
-		}
-	}
-	
-	if (T2_temp > 35){
-	  //LIGA O VENTILADOR NA VELOCIDADE MAXIMA
-	  digitalWrite(B06_A3_VENT, HIGH);
-	  B06_A3_VENT_Status = 1;
-	  FanSpeed_Valor = 255;
-	  B03_D5_RES_Ciclo_Descida = 1;
-	}
-	
-	if(B03_D5_RES_Ciclo_Descida){
-		if (T2_temp < 33){
-			FanSpeed_Valor = 0;
-			if(B05_D2_VENT_MAX_Valor){
-				FanSpeed_Valor = 255;
-			}
-		}
-
-		if (T2_temp < 32){
-			//DESLIGA O VENTILADOR
-			digitalWrite(B06_A3_VENT, LOW);
-			B06_A3_VENT_Status = 0;
-		}
-	}
-	
-	if (T2_temp < 30){
-		if (B03_D5_RES_Status == 0){
-			digitalWrite(B03_D5_RES,HIGH);
-			B03_D5_RES_Status = 1;
-			B03_D5_RES_Ciclo_Descida = 0;
-		}
-	}
-
-//T2 - FIM
-
-//ALARME
-if(T1_temp > 40){T1_temp_erro = 1;}
-if(T2_temp > 50){
-	T2_temp_erro = 1;
-	digitalWrite(B06_A3_VENT, HIGH);
-	B06_A3_VENT_Status = 1;
-	FanSpeed_Valor = 255;
-	}
-}
-//CICLO AUTOMATICO - FIM
-
-//VER OUTRA FORMA DE RESOLVER ISSO	
-if((T1_temp < 25)&&(T2_temp < 25)){
-	T1_temp_erro = 0;
-	T2_temp_erro = 0;
-	}
-	
-	//ALARME DO VENTILADOR SE ESTIVER LIGADO
-	if(B06_A3_VENT_Status){
-		//apito2();
-		if (FanSpeed_Valor == 255){
-			if((FanRPM > 999) && (FanRPM < 2500)){
-				apito2();
-			}
-			if(FanRPM < 1000){
-				apito3();
-			}
-		}
-		if (FanSpeed_Valor == 0){
-			if(FanRPM < 800){
-				apito();
-			}
-		}
-	}	
-}
-//CICLO 1 SEGUNDO - FIM
-  
-//CICLO 2 SEGUNDOS - INICIO
-  if ((TempoTotal % 2000) == 1){
-    
-//B05 - INICIO
-    
-    B05_D2_VENT_MAX_Valor = digitalRead(B05_D2_VENT_MAX);
-    
-    //SE LIGADO, EXECUTA
-	//if(B05_D2_VENT_MAX_Valor){
-		//
-		
-	//}else{
-		
-	//}
-	
-    if((B05_D2_VENT_MAX_Valor)&&(FanRPM != 0)){
-	  if((FanRPM > 999) && (FanRPM < 2500)){
-		apito2();
-	  }
-	  if(FanRPM < 1000){
-		apito3();
-	  }
-    }else{
-    if((FanRPM > 0)&&(FanRPM < 800)){
-		apito();
-      }
-    }
-    
-    //MUDANÇA DE VALOR
-	if(B02_D3_AUTO_Valor == 0){
-		if (B05_D2_VENT_MAX_Valor != B05_D2_VENT_MAX_Status){
-			B05_D2_VENT_MAX_Status = B05_D2_VENT_MAX_Valor;
-		  if(B05_D2_VENT_MAX_Status){
-		  FanSpeed_Valor = 255;
-		  FanSpeed_Manual = 255;
-		  }else{
-		  FanSpeed_Valor = 0;
-		  FanSpeed_Manual = 0;
-		  }
-		}
-	}
-//B05 - FIM
-
-//B02 - INICIO
-//Se der erro não ler mais o botão, forçar para 0
-
-
-    
-    //SE LIGADO, EXECUTA
-    if(B02_D3_AUTO_Valor){
-    //apito();
-    }
-    
-    //MUDANÇA DE VALOR
-    if (B02_D3_AUTO_Valor != B02_D3_AUTO_Status){
-      B02_D3_AUTO_Status = B02_D3_AUTO_Valor;
-	  //Como entra uma vez só aqui, equivale ao SETUP.
-      if(B02_D3_AUTO_Status){
-		lcd.setCursor(10, 0);
-		lcd.print("AUTO 1");
-      }else{
-		lcd.setCursor(10, 0);
-		lcd.print("AUTO 0");
-		
-		//DESLIGA RESISTENCIA, LAMPADA E VENTILADOR
-		digitalWrite(B04_D4_LAMP,LOW);
-		B04_D4_LAMP_Status = 0;
-		B04_D4_LAMP_Ciclo_Descida = 1;
-		
-//		digitalWrite(B06_A3_VENT, LOW);
-//		B06_A3_VENT_Status = 0;
-//		B06_A3_VENT_Ciclo_Subida = 0;
-
-		digitalWrite(B03_D5_RES, LOW);
-		B03_D5_RES_Status = 0;
-		B03_D5_RES_Ciclo_Descida = 0;
-      }
-    }
-//B02 - FIM
-}
-//CICLO 2 SEGUNDOS - FIM
 
 }
 //__fim do loop()
@@ -604,19 +347,31 @@ if((T1_temp < 25)&&(T2_temp < 25)){
 
 //_________________________________
 //__Funções________________________
+
+// Teste
+int Teste(){
+	// Teste de apito
+	Apito3();
+
+	//LIGA O VENTILADOR NA VELOCIDADE MAXIMA
+	digitalWrite(B06_A3_VENT, HIGH);
+	B06_A3_VENT_Status = 1;
+}
+
+
 // Apito
-int apito(){
+int Apito(){
     tone(pino_falante, NOTE_B7,20);
     delay(100);
 }
-int apito2(){
+int Apito2(){
     tone(pino_falante, NOTE_B7,20);
     delay(100);
     noTone(pino_falante);
     tone(pino_falante, NOTE_B6,20);
     delay(100);
 }
-int apito3(){
+int Apito3(){
     tone(pino_falante, NOTE_B7,20);
     delay(100);
     noTone(pino_falante);
