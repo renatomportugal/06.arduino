@@ -22,6 +22,8 @@ Autor:  Renato Menezes Portugal
 ---Operação-----------------------------
 Após alimentar com 110vac, +5vdc, +12vdc, liga com o Botão B1, aciona o Led01.
 
+---Observações--------------------------
+Sem uma fonte adequada, a diferença da leitura da temperatura pode chegar a 5°C.
 
 ---BOTOES
 B1 - ON
@@ -120,14 +122,14 @@ int T1_temp_erro = 0;
 
 /* TERMOMETRO 2 - RESISTENCIA*/
 const int T2 = A5;
-int T2_leitura;
+int T2_Leitura;
 int T2_temp;
 int T2_temp_anterior;
 int T2_temp_erro;
 
 /* BOTOES */
 int B02_D3_AUTO = 3;
-int B02_D3_AUTO_Valor = 0;
+int B02_D3_AUTO_Leitura = 0;
 int B02_D3_AUTO_Status = 0;
 
 int B03_D5_RES = 5;
@@ -138,14 +140,12 @@ int B05_D2_VENT_MAX = 2;
 int B05_D2_VENT_MAX_Valor = 0;
 int B05_D2_VENT_MAX_Status = 0;
 
-int B06_D6_VENT = 6;
-int B06_D6_VENT_Status = 0;
-int B06_D6_VENT_Ciclo_Subida = 0;
-
 /* FALANTE */
 int pino_falante = A0;
 
 /* VENTILADOR */
+int VENT_D6 = 6;
+
 float VENT_PWM = A2;
 int VENT_TAC = A1;
 //Velocidade de 0 a 255
@@ -285,22 +285,26 @@ lcd.begin(16, 2);
 // VENTILADOR
 pinMode(VENT_PWM, OUTPUT);
 pinMode(VENT_TAC, INPUT);
+lcd.setCursor(11, 1);
+lcd.print("V");
 // LedMax
 pinMode(VENT_LedMax, OUTPUT);
 pinMode(B05_D2_VENT_MAX, INPUT);
 lcd.setCursor(14, 1);
 lcd.print("M");
-pinMode(B06_D6_VENT, OUTPUT);
+pinMode(VENT_D6, OUTPUT);
 digitalWrite(VENT_TAC,HIGH);
-digitalWrite(B06_D6_VENT, LOW);
+
+//Inicia com o ventilador desligado
+digitalWrite(VENT_D6, LOW);
 //Inicia com a velocidade baixa
 analogWrite(VENT_PWM, VENT_Speed_Valor);
 
 
 // AUTO
 pinMode(B02_D3_AUTO, INPUT);
-lcd.setCursor(10, 0);
-lcd.print("AUTO");
+lcd.setCursor(8, 1);
+lcd.print("A");
 
 // RESISTÊNCIA
 pinMode(B03_D5_RES, OUTPUT);
@@ -350,7 +354,7 @@ void loop() {
 
      //CICLO 500 milisegundos
      if ((TempoTotal % 500) == 1){
-Apito();
+
           SensorPulsTijd = pulseIn(VENT_TAC, LOW);
           lcd.setCursor(0, 0);
           // lcd.print(SensorPulsTijd);
@@ -366,12 +370,10 @@ Apito();
                lcd.setCursor(0, 0);
                lcd.print("RPM: 0   ");
                lcd.setCursor(12, 1);
-               B06_D6_VENT_Status = 0;
-               lcd.print(B06_D6_VENT_Status);
+               lcd.print("0");
           }else{
                lcd.setCursor(12, 1);
-               B06_D6_VENT_Status = 1;
-               lcd.print(B06_D6_VENT_Status);
+               lcd.print("1");
           }
             
 
@@ -389,9 +391,9 @@ Apito();
           // }
           
           // if ((T1_temp_erro == 0) && (T2_temp_erro == 0)){
-          //      B02_D3_AUTO_Valor = digitalRead(B02_D3_AUTO);
+          //      B02_D3_AUTO_Leitura = digitalRead(B02_D3_AUTO);
           // }else{
-          //      B02_D3_AUTO_Valor = 0;
+          //      B02_D3_AUTO_Leitura = 0;
           //      Apito();
           // }
 
@@ -422,8 +424,8 @@ Apito();
           
           
           //LEITURA T2
-          T2_leitura = analogRead(T2);
-          T2_temp = (float(T2_leitura)*5/(1023))/0.01;
+          T2_Leitura = analogRead(T2);
+          T2_temp = (float(T2_Leitura)*5/(1023))/0.01;
           
           if (T2_temp > T2_temp_anterior){
                if ((T2_temp - T2_temp_anterior) > 3 ){
@@ -441,9 +443,10 @@ Apito();
           
           //IMPRIME TEMPERATURA NO LCD
           lcd.setCursor(0, 1);
-          lcd.print("T ");
+          lcd.print("T");
+          lcd.setCursor(2, 1);
           lcd.print(T1_temp);
-          lcd.print(" ");
+          lcd.setCursor(5, 1);
           lcd.print(T2_temp);
           //__________________________________________
           //__FIM - TEMPERATURA_______________________
@@ -478,6 +481,37 @@ Apito();
 
      //CICLO 2 SEGUNDOS - INICIO
      if ((TempoTotal % 2000) == 1){
+          Apito();
+
+          // Ciclo automático
+          B02_D3_AUTO_Leitura = digitalRead(B02_D3_AUTO);
+          if(B02_D3_AUTO_Leitura){
+               lcd.setCursor(9, 1);
+               lcd.print("1");
+
+               // --INI - MODO FULL------------------------------------
+               //AO CHEGAR NA TEMPERATURA DE 31 GRAUS A LAMPADA DESLIGA
+               if (T1_temp > 30){
+                    if(B04_D4_LAMP_Status){
+                    digitalWrite(B04_D4_LAMP,LOW);
+                         B04_D4_LAMP_Status = 0;
+                         B04_D4_LAMP_Ciclo_Descida = 1;
+                    }
+               }
+               
+               //AO CHEGAR NA TEMPERATURA DE 28 GRAUS A LAMPADA LIGA
+               if (T1_temp < 29){
+               digitalWrite(B04_D4_LAMP,HIGH);
+               B04_D4_LAMP_Status = 1;
+                    B04_D4_LAMP_Ciclo_Descida = 0;
+               }
+               // --FIM - MODO FULL------------------------------------
+
+          }else{
+               lcd.setCursor(9, 1);
+               lcd.print("0");
+          }
+
           B05_D2_VENT_MAX_Valor = digitalRead(B05_D2_VENT_MAX);
 
           if((B05_D2_VENT_MAX_Valor)&&(FanRPM != 0)){
@@ -514,16 +548,24 @@ Apito();
 // Inicio
 int Inicio(){
      // VENTILADOR
-     digitalWrite(B06_D6_VENT, HIGH);
-     lcd.setCursor(11, 1);
-     lcd.print("V");
+     // digitalWrite(VENT_D6, HIGH);
+     // lcd.setCursor(11, 1);
+     // lcd.print("V");
 
 
-     // // LM35
-     // T1_leitura = analogRead(T1);
-     // T1_temp_anterior = (float(T1_leitura)*5/(1023))/0.01;
-     // T2_leitura = analogRead(T2);
-     // T2_temp_anterior = (float(T2_leitura)*5/(1023))/0.01;
+     // LM35
+     // Lâmpada
+     T1_leitura = analogRead(T1);
+     T1_temp = (float(T1_leitura)*5/(1023))/0.01;
+     lcd.setCursor(11, 0);
+     lcd.print(T1_temp);
+
+     // Resistência
+     T2_Leitura = analogRead(T2);
+     T2_temp = (float(T2_Leitura)*5/(1023))/0.01;
+     lcd.setCursor(14, 0);
+     lcd.print(T2_temp);
+     
 }
 
 
