@@ -1,5 +1,6 @@
 // ERROS
-// ESTÁ TRAVANDO QUANDO A VENTOINHA PÁRA
+// ESTÁ TRAVANDO EM ALGUM MOMENTO, COM AS CARGAS LIGADAS.
+// Só pode desligar o ventilador quando a carga estiver desligada, pois fica travado durante alguns segundos.
 
 //Incluindo a Biblioteca
 #include <LiquidCrystal.h>
@@ -162,6 +163,7 @@ int FanValor = 0;
 int B04_D4_LAMP = 4;
 int B04_D4_LAMP_Status = 0;
 int B04_D4_LAMP_Ciclo_Descida = 0;
+int B04_D4_LAMP_Ciclo_Iteracao = 0;
 
 int VENT_LedMax = 1;
 
@@ -355,17 +357,19 @@ void loop() {
      //CICLO 500 milisegundos
      if ((TempoTotal % 500) == 1){
 
+          //__________________________________________
+          //__INI - VENTILADOR________________________
           SensorPulsTijd = pulseIn(VENT_TAC, LOW);
           lcd.setCursor(0, 0);
           // lcd.print(SensorPulsTijd);
           if(SensorPulsTijd < 99999){
                FanFrequency = 1000000/SensorPulsTijd;
-               FanRPM = 1000*FanFrequency/60;  
+               FanRPM = 1000*FanFrequency/60;
           }else{
                FanRPM = 0;
           }
 
-
+          // Indicador de Ventilador Ligado
           if (FanRPM == 0){
                lcd.setCursor(0, 0);
                lcd.print("RPM: 0   ");
@@ -375,7 +379,61 @@ void loop() {
                lcd.setCursor(12, 1);
                lcd.print("1");
           }
+
+          // Mostra no LCD
+          if (FanRPM < 1000){
+               lcd.setCursor(0, 0);
+               lcd.print("RPM: ");
+               lcd.print(FanRPM);
+               lcd.print(" ");			
+          }
+
+          if ((FanRPM > 999) && (FanRPM < 3200)){
+               lcd.setCursor(0, 0);
+               lcd.print("RPM: ");
+               lcd.print(FanRPM);
+          }
+
+          //LED DE VELOCIDADE MÁXIMA DO VENTILADOR
+          if ((FanRPM > 2600) && (FanRPM < 3200)){
+               digitalWrite(VENT_LedMax,HIGH);
+               lcd.setCursor(15, 1);
+               lcd.print("1");
+          }else{
+               digitalWrite(VENT_LedMax,LOW);
+               lcd.setCursor(15, 1);
+               lcd.print("0");
+          }
             
+          B05_D2_VENT_MAX_Valor = digitalRead(B05_D2_VENT_MAX);
+
+          if((B05_D2_VENT_MAX_Valor)&&(FanRPM != 0)){
+               if(VENT_Speed_Valor != 255){
+                    VENT_Speed_Valor = 255;
+                    analogWrite(VENT_PWM, VENT_Speed_Valor);
+                    // lcd.setCursor(15, 1);
+                    // lcd.print("1");
+               }
+
+               
+
+               if((FanRPM > 999) && (FanRPM < 2500)){
+                    Apito2();
+               }
+               if(FanRPM < 1000){
+                    Apito3();
+               }
+          }else{
+               if(VENT_Speed_Valor != 0){
+                    VENT_Speed_Valor = 0;
+                    analogWrite(VENT_PWM, VENT_Speed_Valor);
+                    // lcd.setCursor(15, 1);
+                    // lcd.print("0");
+               }
+          }
+
+          //__________________________________________
+          //__FIM - VENTILADOR________________________
 
           // //Muda velocidade só quando há mudança do botão B05 ou no modo AUTOMATICO
           // if (VENT_Speed_Valor > VENT_Speed_Manual){
@@ -451,31 +509,7 @@ void loop() {
           //__________________________________________
           //__FIM - TEMPERATURA_______________________
 
-          //__________________________________________
-          //__INI - VENTILADOR________________________
-
-
-          if (FanRPM < 1000){
-               lcd.setCursor(0, 0);
-               lcd.print("RPM: ");
-               lcd.print(FanRPM);
-               lcd.print(" ");			
-          }
-
-          if ((FanRPM > 999) && (FanRPM < 3200)){
-               lcd.setCursor(0, 0);
-               lcd.print("RPM: ");
-               lcd.print(FanRPM);
-          }
-
-          //LED DE VELOCIDADE MÁXIMA DO VENTILADOR
-          if ((FanRPM > 2600) && (FanRPM < 3200)){
-               digitalWrite(VENT_LedMax,HIGH);
-          }else{
-               digitalWrite(VENT_LedMax,LOW); 
-          }
-          //__________________________________________
-          //__FIM - VENTILADOR________________________
+          
 
      }
 
@@ -493,49 +527,86 @@ void loop() {
                //AO CHEGAR NA TEMPERATURA DE 31 GRAUS A LAMPADA DESLIGA
                if (T1_temp > 30){
                     if(B04_D4_LAMP_Status){
-                    digitalWrite(B04_D4_LAMP,LOW);
+
+                         digitalWrite(B04_D4_LAMP,LOW);
                          B04_D4_LAMP_Status = 0;
                          B04_D4_LAMP_Ciclo_Descida = 1;
+                         // Iterações
+                         B04_D4_LAMP_Ciclo_Iteracao = 0;
+                         lcd.setCursor(9, 0);
+                         lcd.print(B04_D4_LAMP_Ciclo_Iteracao);
+                         lcd.print(" ");
+
+                         LigarVentilador(255);
                     }
+               }else{
+                    // // Funcionando ok, alternado, liga e desliga
+                    // if(B04_D4_LAMP_Ciclo_Descida == 0){
+                    //      if((B04_D4_LAMP_Ciclo_Iteracao % 2) == 1){
+                    //           digitalWrite(B04_D4_LAMP,HIGH);
+                    //      }else{
+                    //           digitalWrite(B04_D4_LAMP,LOW);
+                    //      }
+
+                    //      B04_D4_LAMP_Ciclo_Iteracao = B04_D4_LAMP_Ciclo_Iteracao + 1;
+                    //      lcd.setCursor(9, 0);
+                    //      lcd.print(B04_D4_LAMP_Ciclo_Iteracao);
+
+                    //      DesligarVentilador();
+
+                    // }else{
+                    //      if(T1_temp < 30){
+                    //           if ((FanRPM > 2600) && (FanRPM < 3200)){
+                    //                analogWrite(VENT_PWM, 0);
+                    //           }
+                    //      }
+                    // }
+
+                    // Testar novo modelo para ligar a cada 4 iterações, e desligar nas outras
+                    if(B04_D4_LAMP_Ciclo_Descida == 0){
+                         if((B04_D4_LAMP_Ciclo_Iteracao % 4) == 1){
+                              digitalWrite(B04_D4_LAMP,HIGH);
+                         }else{
+                              digitalWrite(B04_D4_LAMP,LOW);
+                         }
+
+                         B04_D4_LAMP_Ciclo_Iteracao = B04_D4_LAMP_Ciclo_Iteracao + 1;
+                         lcd.setCursor(9, 0);
+                         lcd.print(B04_D4_LAMP_Ciclo_Iteracao);
+
+                         DesligarVentilador();
+
+
+                    }else{
+                         if(T1_temp < 30){
+                              if ((FanRPM > 2600) && (FanRPM < 3200)){
+                                   analogWrite(VENT_PWM, 0);
+                              }
+                         }
+                    }
+
                }
                
                //AO CHEGAR NA TEMPERATURA DE 28 GRAUS A LAMPADA LIGA
                if (T1_temp < 29){
-               digitalWrite(B04_D4_LAMP,HIGH);
-               B04_D4_LAMP_Status = 1;
+
+                    // digitalWrite(B04_D4_LAMP,HIGH);
+
+                    B04_D4_LAMP_Status = 1;
                     B04_D4_LAMP_Ciclo_Descida = 0;
+                    
+                    
                }
                // --FIM - MODO FULL------------------------------------
 
           }else{
                lcd.setCursor(9, 1);
                lcd.print("0");
+               // Desliga Luz
+               digitalWrite(B04_D4_LAMP,LOW);
           }
 
-          B05_D2_VENT_MAX_Valor = digitalRead(B05_D2_VENT_MAX);
-
-          if((B05_D2_VENT_MAX_Valor)&&(FanRPM != 0)){
-               VENT_Speed_Valor = 255;
-               analogWrite(VENT_PWM, VENT_Speed_Valor);
-
-               lcd.setCursor(15, 1);
-               lcd.print("1");
-
-               if((FanRPM > 999) && (FanRPM < 2500)){
-                    Apito2();
-               }
-               if(FanRPM < 1000){
-                    Apito3();
-               }
-          }else{
-               VENT_Speed_Valor = 0;
-               analogWrite(VENT_PWM, VENT_Speed_Valor);
-               lcd.setCursor(15, 1);
-               lcd.print("0");
-               if((FanRPM > 0)&&(FanRPM < 800)){
-                    Apito();
-               }
-          }
+          
      }
 
 }
@@ -568,6 +639,14 @@ int Inicio(){
      
 }
 
+int LigarVentilador(int pwm){
+     digitalWrite(VENT_D6, HIGH);
+     analogWrite(VENT_PWM, pwm);
+}
+
+int DesligarVentilador(){
+     digitalWrite(VENT_D6, LOW);
+}
 
 // Apito
 int Apito(){
