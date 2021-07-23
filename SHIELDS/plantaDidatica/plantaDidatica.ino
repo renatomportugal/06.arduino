@@ -310,7 +310,7 @@ void loop() {
   TempoCiclo = 0;
   TempoCiclo = millis();  
 
-//CICLO 100 milisegundos
+//CICLO 500 milisegundos
 if ((TempoTotal % 500) == 1){
 	SensorPulsTijd = pulseIn(FanTach, LOW);
 	FanFrequency = 1000000/SensorPulsTijd;

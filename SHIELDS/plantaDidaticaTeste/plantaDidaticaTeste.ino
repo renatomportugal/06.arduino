@@ -1,3 +1,6 @@
+// ERROS
+// ESTÁ TRAVANDO QUANDO A VENTOINHA PÁRA
+
 //Incluindo a Biblioteca
 #include <LiquidCrystal.h>
 
@@ -7,6 +10,19 @@ Autor:  Renato Menezes Portugal
 */
 
 /* 00. ESTRUTURA FÍSICA
+----------------------------------------
+|            Led01 [Ligado]            |
+|----------  Led02 [Auto]              |
+||B4|B2|B5|  Led03 [Resistência]       |
+||B3|B1|B6|  Led04 [Ventilador Ligado] |
+|----------  Led05 [Ventilador Máximo] |
+|            Led06 [Alarme]            |
+----------------------------------------
+
+---Operação-----------------------------
+Após alimentar com 110vac, +5vdc, +12vdc, liga com o Botão B1, aciona o Led01.
+
+
 ---BOTOES
 B1 - ON
      Alimenta o sistema com 5v.
@@ -32,13 +48,10 @@ ALARME                       - CARGA (5v)       - 220 Ohms  - SAÍDA do Arduino
 
 ---VENTILADOR
 CORES    - SIGLA   - PINO - 
-Azul     - FanPWM  - A1   - Arduino Envia PWM ao Ventilador 
-Amarelo  - FanTach - A2   - Arduino Recebe pulsos do Ventilador
+Azul     - VENT_TAC - A1   - Arduino Recebe pulsos do Ventilador
+Amarelo  - VENT_PWM - A2   - Arduino Envia PWM ao Ventilador 
 Vermelho - FanPos  - --   - Recebe 12v do MOC
 Preto    - FanNeg  - --   - Ligado ao Terra
-
-
-
 
 ---RESISTENCIA 110v
 Arduino - I/O   - Botão
@@ -125,22 +138,20 @@ int B05_D2_VENT_MAX = 2;
 int B05_D2_VENT_MAX_Valor = 0;
 int B05_D2_VENT_MAX_Status = 0;
 
-int B06_A3_VENT = A3;
-int B06_A3_VENT_Status = 0;
-int B06_A3_VENT_Ciclo_Subida = 0;
-
-int LedVentMax = 1;
+int B06_D6_VENT = 6;
+int B06_D6_VENT_Status = 0;
+int B06_D6_VENT_Ciclo_Subida = 0;
 
 /* FALANTE */
 int pino_falante = A0;
 
 /* VENTILADOR */
-float FanPWM = A1;
-int FanTach = A2;
+float VENT_PWM = A2;
+int VENT_TAC = A1;
 //Velocidade de 0 a 255
-int FanSpeed_Valor = 0;
-int FanSpeed_Manual = 0;
-int FanSpeed_Status = 0;
+int VENT_Speed_Valor = 0;
+int VENT_Speed_Manual = 0;
+int VENT_Speed_Status = 0;
 //int Pulso = 2;
 int FanRPM = 0;
 double FanFrequency;
@@ -151,6 +162,9 @@ int FanValor = 0;
 int B04_D4_LAMP = 4;
 int B04_D4_LAMP_Status = 0;
 int B04_D4_LAMP_Ciclo_Descida = 0;
+
+int VENT_LedMax = 1;
+
 
 // DEFINICOES
 // NOTAS
@@ -265,30 +279,38 @@ long TempoTotal, TempoCiclo;
 
 //__INI setup_______________________________
 void setup() {
-/* BOTOES */
-pinMode(FanTach, INPUT);
-digitalWrite(FanTach,HIGH);
-pinMode(LedVentMax, OUTPUT);
+// LCD
+lcd.begin(16, 2);
 
+// VENTILADOR
+pinMode(VENT_PWM, OUTPUT);
+pinMode(VENT_TAC, INPUT);
+// LedMax
+pinMode(VENT_LedMax, OUTPUT);
+pinMode(B05_D2_VENT_MAX, INPUT);
+lcd.setCursor(14, 1);
+lcd.print("M");
+pinMode(B06_D6_VENT, OUTPUT);
+digitalWrite(VENT_TAC,HIGH);
+digitalWrite(B06_D6_VENT, LOW);
+//Inicia com a velocidade baixa
+analogWrite(VENT_PWM, VENT_Speed_Valor);
+
+
+// AUTO
 pinMode(B02_D3_AUTO, INPUT);
+lcd.setCursor(10, 0);
+lcd.print("AUTO");
+
+// RESISTÊNCIA
 pinMode(B03_D5_RES, OUTPUT);
 digitalWrite(B03_D5_RES, LOW);
-pinMode(B05_D2_VENT_MAX, INPUT);
+
+// LÂMPADA
 pinMode(B04_D4_LAMP, OUTPUT);
 digitalWrite(B04_D4_LAMP, LOW);
-pinMode(B06_A3_VENT, OUTPUT);
-digitalWrite(B06_A3_VENT, LOW);
 
-lcd.begin(16, 2);
-lcd.setCursor(0, 1);
-lcd.print(millis()/1000);
-
-//ESCREVE AUTOMÁTICO DESLIGADO
-lcd.setCursor(10, 0);
-lcd.print("AUTO 0");
-
-//SONORIZACAO INICIAL
-  // iterate over the notes of the melody:
+// ALARME
   for (int i = 0; i < qntNotas; i++) {
 
     // to calculate the note duration, take one second 
@@ -308,38 +330,179 @@ lcd.print("AUTO 0");
 // 5. TEMPORIZADOR  
 TempoTotal = 0;
 
-//Inicia com a velocidade baixa
-analogWrite(FanPWM, FanSpeed_Valor);
+// TERMÔMETRO 01
+pinMode(T1, INPUT);
 
-	//LEITURA T1
-    T1_leitura = analogRead(T1);
-    T1_temp_anterior = (float(T1_leitura)*5/(1023))/0.01;
-	//LEITURA T2
-    T2_leitura = analogRead(T2);
-    T2_temp_anterior = (float(T2_leitura)*5/(1023))/0.01;
+// TERMÔMETRO 02
+pinMode(T2, INPUT);
 
-	Teste();
+
+     Inicio();
+
 }
 //__FIM setup_______________________________
 
 void loop() {
-	//TEMPORIZADOR
+	// TEMPORIZADOR
 	TempoTotal = millis();
 	TempoCiclo = 0;
 	TempoCiclo = millis();
 
-	//CICLO 500 milisegundos
-	if ((TempoTotal % 500) == 1){
-		SensorPulsTijd = pulseIn(FanTach, LOW);
-		FanFrequency = 1000000/SensorPulsTijd;
-		FanRPM = 1000*FanFrequency/60;  
+     //CICLO 500 milisegundos
+     if ((TempoTotal % 500) == 1){
+Apito();
+          SensorPulsTijd = pulseIn(VENT_TAC, LOW);
+          lcd.setCursor(0, 0);
+          // lcd.print(SensorPulsTijd);
+          if(SensorPulsTijd < 99999){
+               FanFrequency = 1000000/SensorPulsTijd;
+               FanRPM = 1000*FanFrequency/60;  
+          }else{
+               FanRPM = 0;
+          }
 
-		lcd.setCursor(0, 0);
-		lcd.print(FanRPM); 
 
-		// FanSpeed_Status = FanSpeed_Valor;
-		analogWrite(FanPWM, FanSpeed_Valor);
-	}
+          if (FanRPM == 0){
+               lcd.setCursor(0, 0);
+               lcd.print("RPM: 0   ");
+               lcd.setCursor(12, 1);
+               B06_D6_VENT_Status = 0;
+               lcd.print(B06_D6_VENT_Status);
+          }else{
+               lcd.setCursor(12, 1);
+               B06_D6_VENT_Status = 1;
+               lcd.print(B06_D6_VENT_Status);
+          }
+            
+
+          // //Muda velocidade só quando há mudança do botão B05 ou no modo AUTOMATICO
+          // if (VENT_Speed_Valor > VENT_Speed_Manual){
+          //      if(VENT_Speed_Valor != VENT_Speed_Status){
+          //      VENT_Speed_Status = VENT_Speed_Valor;
+          //      analogWrite(VENT_PWM, VENT_Speed_Valor);
+          //      }
+          // }else{
+          //      if(VENT_Speed_Manual != VENT_Speed_Status){
+          //      VENT_Speed_Status = VENT_Speed_Manual;
+          //      analogWrite(VENT_PWM, VENT_Speed_Manual);
+          //      }
+          // }
+          
+          // if ((T1_temp_erro == 0) && (T2_temp_erro == 0)){
+          //      B02_D3_AUTO_Valor = digitalRead(B02_D3_AUTO);
+          // }else{
+          //      B02_D3_AUTO_Valor = 0;
+          //      Apito();
+          // }
+
+     }
+
+     //CICLO 1 SEGUNDO - INICIO
+     if ((TempoTotal % 1000) == 1){
+
+          //__________________________________________
+          //__INI - TEMPERATURA_______________________
+          //LEITURA T1
+          T1_leitura = analogRead(T1);
+          T1_temp = (float(T1_leitura)*5/(1023))/0.01;
+          
+          if (T1_temp > T1_temp_anterior){
+               if ((T1_temp - T1_temp_anterior) > 3 ){
+                    T1_temp_erro = 1;
+               }else{
+                    T1_temp_anterior = T1_temp;
+               }
+          }else{
+               if ((T1_temp_anterior - T1_temp) > 3 ){
+                    T1_temp_erro = 1;
+               }else{
+                    T1_temp_anterior = T1_temp;
+               }
+          }
+          
+          
+          //LEITURA T2
+          T2_leitura = analogRead(T2);
+          T2_temp = (float(T2_leitura)*5/(1023))/0.01;
+          
+          if (T2_temp > T2_temp_anterior){
+               if ((T2_temp - T2_temp_anterior) > 3 ){
+                    T2_temp_erro = 1;
+               }else{
+                    T2_temp_anterior = T2_temp;
+               }
+          }else{
+               if ((T2_temp_anterior - T2_temp) > 3 ){
+                    T2_temp_erro = 1;
+               }else{
+                    T2_temp_anterior = T2_temp;
+               }
+          }
+          
+          //IMPRIME TEMPERATURA NO LCD
+          lcd.setCursor(0, 1);
+          lcd.print("T ");
+          lcd.print(T1_temp);
+          lcd.print(" ");
+          lcd.print(T2_temp);
+          //__________________________________________
+          //__FIM - TEMPERATURA_______________________
+
+          //__________________________________________
+          //__INI - VENTILADOR________________________
+
+
+          if (FanRPM < 1000){
+               lcd.setCursor(0, 0);
+               lcd.print("RPM: ");
+               lcd.print(FanRPM);
+               lcd.print(" ");			
+          }
+
+          if ((FanRPM > 999) && (FanRPM < 3200)){
+               lcd.setCursor(0, 0);
+               lcd.print("RPM: ");
+               lcd.print(FanRPM);
+          }
+
+          //LED DE VELOCIDADE MÁXIMA DO VENTILADOR
+          if ((FanRPM > 2600) && (FanRPM < 3200)){
+               digitalWrite(VENT_LedMax,HIGH);
+          }else{
+               digitalWrite(VENT_LedMax,LOW); 
+          }
+          //__________________________________________
+          //__FIM - VENTILADOR________________________
+
+     }
+
+     //CICLO 2 SEGUNDOS - INICIO
+     if ((TempoTotal % 2000) == 1){
+          B05_D2_VENT_MAX_Valor = digitalRead(B05_D2_VENT_MAX);
+
+          if((B05_D2_VENT_MAX_Valor)&&(FanRPM != 0)){
+               VENT_Speed_Valor = 255;
+               analogWrite(VENT_PWM, VENT_Speed_Valor);
+
+               lcd.setCursor(15, 1);
+               lcd.print("1");
+
+               if((FanRPM > 999) && (FanRPM < 2500)){
+                    Apito2();
+               }
+               if(FanRPM < 1000){
+                    Apito3();
+               }
+          }else{
+               VENT_Speed_Valor = 0;
+               analogWrite(VENT_PWM, VENT_Speed_Valor);
+               lcd.setCursor(15, 1);
+               lcd.print("0");
+               if((FanRPM > 0)&&(FanRPM < 800)){
+                    Apito();
+               }
+          }
+     }
 
 }
 //__fim do loop()
@@ -348,14 +511,19 @@ void loop() {
 //_________________________________
 //__Funções________________________
 
-// Teste
-int Teste(){
-	// Teste de apito
-	Apito3();
+// Inicio
+int Inicio(){
+     // VENTILADOR
+     digitalWrite(B06_D6_VENT, HIGH);
+     lcd.setCursor(11, 1);
+     lcd.print("V");
 
-	//LIGA O VENTILADOR NA VELOCIDADE MAXIMA
-	digitalWrite(B06_A3_VENT, HIGH);
-	B06_A3_VENT_Status = 1;
+
+     // // LM35
+     // T1_leitura = analogRead(T1);
+     // T1_temp_anterior = (float(T1_leitura)*5/(1023))/0.01;
+     // T2_leitura = analogRead(T2);
+     // T2_temp_anterior = (float(T2_leitura)*5/(1023))/0.01;
 }
 
 
