@@ -1,6 +1,7 @@
 // ERROS
 // ESTÁ TRAVANDO EM ALGUM MOMENTO, COM AS CARGAS LIGADAS.
 // Só pode desligar o ventilador quando a carga estiver desligada, pois fica travado durante alguns segundos.
+// Fazer um sistema de monitoramento de emergência. Está travando com a resistência ligada.
 
 //Incluindo a Biblioteca
 #include <LiquidCrystal.h>
@@ -136,6 +137,7 @@ int B02_D3_AUTO_Status = 0;
 int B03_D5_RES = 5;
 int B03_D5_RES_Status = 0;
 int B03_D5_RES_Ciclo_Descida = 0;
+int B03_D5_RES_Ciclo_Iteracao = 0;
 
 int B05_D2_VENT_MAX = 2;
 int B05_D2_VENT_MAX_Valor = 0;
@@ -354,6 +356,39 @@ void loop() {
 	TempoCiclo = 0;
 	TempoCiclo = millis();
 
+     //_CICLO 250ms
+     if ((TempoTotal % 250) == 1){
+          //LEITURA T2
+          T2_Leitura = analogRead(T2);
+          T2_temp = (float(T2_Leitura)*5/(1023))/0.01;
+          
+          if (T2_temp > T2_temp_anterior){
+               if ((T2_temp - T2_temp_anterior) > 3 ){
+                    T2_temp_erro = 1;
+               }else{
+                    T2_temp_anterior = T2_temp;
+               }
+          }else{
+               if ((T2_temp_anterior - T2_temp) > 3 ){
+                    T2_temp_erro = 1;
+               }else{
+                    T2_temp_anterior = T2_temp;
+               }
+          }
+
+          if(T2_temp > 40){
+               Apito3();
+               LigarVentilador(255);
+               // Desliga Luz
+               digitalWrite(B04_D4_LAMP,LOW);
+               // Desliga Resistência
+               digitalWrite(B03_D5_RES,LOW);
+               lcd.setCursor(0, 0);
+               lcd.print("EMERGENCIA !!!  ");
+          }
+
+     }
+
      //CICLO 500 milisegundos
      if ((TempoTotal % 500) == 1){
 
@@ -405,32 +440,7 @@ void loop() {
                lcd.print("0");
           }
             
-          B05_D2_VENT_MAX_Valor = digitalRead(B05_D2_VENT_MAX);
-
-          if((B05_D2_VENT_MAX_Valor)&&(FanRPM != 0)){
-               if(VENT_Speed_Valor != 255){
-                    VENT_Speed_Valor = 255;
-                    analogWrite(VENT_PWM, VENT_Speed_Valor);
-                    // lcd.setCursor(15, 1);
-                    // lcd.print("1");
-               }
-
-               
-
-               if((FanRPM > 999) && (FanRPM < 2500)){
-                    Apito2();
-               }
-               if(FanRPM < 1000){
-                    Apito3();
-               }
-          }else{
-               if(VENT_Speed_Valor != 0){
-                    VENT_Speed_Valor = 0;
-                    analogWrite(VENT_PWM, VENT_Speed_Valor);
-                    // lcd.setCursor(15, 1);
-                    // lcd.print("0");
-               }
-          }
+          
 
           //__________________________________________
           //__FIM - VENTILADOR________________________
@@ -455,6 +465,18 @@ void loop() {
           //      Apito();
           // }
 
+          // Lâmpada no LCD
+          lcd.setCursor(11, 0);
+          lcd.print("L");
+          lcd.setCursor(12, 0);
+          lcd.print(B04_D4_LAMP_Status);
+
+          //Resistência no LCD
+          lcd.setCursor(14, 0);
+          lcd.print("R");
+          lcd.setCursor(15, 0);
+          lcd.print(B03_D5_RES_Status);
+          
      }
 
      //CICLO 1 SEGUNDO - INICIO
@@ -481,23 +503,7 @@ void loop() {
           }
           
           
-          //LEITURA T2
-          T2_Leitura = analogRead(T2);
-          T2_temp = (float(T2_Leitura)*5/(1023))/0.01;
           
-          if (T2_temp > T2_temp_anterior){
-               if ((T2_temp - T2_temp_anterior) > 3 ){
-                    T2_temp_erro = 1;
-               }else{
-                    T2_temp_anterior = T2_temp;
-               }
-          }else{
-               if ((T2_temp_anterior - T2_temp) > 3 ){
-                    T2_temp_erro = 1;
-               }else{
-                    T2_temp_anterior = T2_temp;
-               }
-          }
           
           //IMPRIME TEMPERATURA NO LCD
           lcd.setCursor(0, 1);
@@ -523,9 +529,10 @@ void loop() {
                lcd.setCursor(9, 1);
                lcd.print("1");
 
+               // --LÂMPADA--------------------------------------------
                // --INI - MODO FULL------------------------------------
                //AO CHEGAR NA TEMPERATURA DE 31 GRAUS A LAMPADA DESLIGA
-               if (T1_temp > 30){
+               if (T1_temp > 29){
                     if(B04_D4_LAMP_Status){
 
                          digitalWrite(B04_D4_LAMP,LOW);
@@ -533,62 +540,50 @@ void loop() {
                          B04_D4_LAMP_Ciclo_Descida = 1;
                          // Iterações
                          B04_D4_LAMP_Ciclo_Iteracao = 0;
-                         lcd.setCursor(9, 0);
-                         lcd.print(B04_D4_LAMP_Ciclo_Iteracao);
-                         lcd.print(" ");
+                         // lcd.setCursor(9, 0);
+                         // lcd.print(B04_D4_LAMP_Ciclo_Iteracao);
+                         // lcd.print(" ");
 
-                         LigarVentilador(255);
+                         // LigarVentilador(255);
                     }
                }else{
-                    // // Funcionando ok, alternado, liga e desliga
-                    // if(B04_D4_LAMP_Ciclo_Descida == 0){
-                    //      if((B04_D4_LAMP_Ciclo_Iteracao % 2) == 1){
-                    //           digitalWrite(B04_D4_LAMP,HIGH);
-                    //      }else{
-                    //           digitalWrite(B04_D4_LAMP,LOW);
-                    //      }
-
-                    //      B04_D4_LAMP_Ciclo_Iteracao = B04_D4_LAMP_Ciclo_Iteracao + 1;
-                    //      lcd.setCursor(9, 0);
-                    //      lcd.print(B04_D4_LAMP_Ciclo_Iteracao);
-
-                    //      DesligarVentilador();
-
-                    // }else{
-                    //      if(T1_temp < 30){
-                    //           if ((FanRPM > 2600) && (FanRPM < 3200)){
-                    //                analogWrite(VENT_PWM, 0);
-                    //           }
-                    //      }
-                    // }
-
-                    // Testar novo modelo para ligar a cada 4 iterações, e desligar nas outras
+                    // Funcionando ok, alternado, liga e desliga
                     if(B04_D4_LAMP_Ciclo_Descida == 0){
-                         if((B04_D4_LAMP_Ciclo_Iteracao % 4) == 1){
+                         if((B04_D4_LAMP_Ciclo_Iteracao % 2) == 1){
                               digitalWrite(B04_D4_LAMP,HIGH);
                          }else{
                               digitalWrite(B04_D4_LAMP,LOW);
                          }
 
                          B04_D4_LAMP_Ciclo_Iteracao = B04_D4_LAMP_Ciclo_Iteracao + 1;
-                         lcd.setCursor(9, 0);
-                         lcd.print(B04_D4_LAMP_Ciclo_Iteracao);
+                         // lcd.setCursor(9, 0);
+                         // lcd.print(B04_D4_LAMP_Ciclo_Iteracao);
 
-                         DesligarVentilador();
-
+                         // DesligarVentilador();
 
                     }else{
-                         if(T1_temp < 30){
-                              if ((FanRPM > 2600) && (FanRPM < 3200)){
-                                   analogWrite(VENT_PWM, 0);
-                              }
-                         }
+                         
                     }
 
+                    // // Testar novo modelo para ligar a cada 4 iterações, e desligar nas outras
+                    // if(B04_D4_LAMP_Ciclo_Descida == 0){
+                    //      if((B04_D4_LAMP_Ciclo_Iteracao % 4) == 1){
+                    //           digitalWrite(B04_D4_LAMP,HIGH);
+                    //      }else{
+                    //           digitalWrite(B04_D4_LAMP,LOW);
+                    //      }
+
+                    //      B04_D4_LAMP_Ciclo_Iteracao = B04_D4_LAMP_Ciclo_Iteracao + 1;
+                    //      // lcd.setCursor(9, 0);
+                    //      // lcd.print(B04_D4_LAMP_Ciclo_Iteracao);
+
+                    //      // DesligarVentilador();
+
+                    // }
                }
                
                //AO CHEGAR NA TEMPERATURA DE 28 GRAUS A LAMPADA LIGA
-               if (T1_temp < 29){
+               if (T1_temp < 28){
 
                     // digitalWrite(B04_D4_LAMP,HIGH);
 
@@ -598,12 +593,116 @@ void loop() {
                     
                }
                // --FIM - MODO FULL------------------------------------
+               // -----------------------------------------------------
+
+               // --RESISTÊNCIA----------------------------------------
+               if (T2_temp > 32){
+                    LigarVentilador(255);
+                    if(B03_D5_RES_Status){
+                         // Desliga a Resistência
+                         digitalWrite(B03_D5_RES,LOW);
+                         B03_D5_RES_Status = 0;
+                         B03_D5_RES_Ciclo_Descida = 1;
+                         // Iterações
+                         B03_D5_RES_Ciclo_Iteracao = 0;
+                    }
+               }else{
+                    // Subida
+                    if(B03_D5_RES_Ciclo_Descida == 0){
+                         if((B03_D5_RES_Ciclo_Iteracao % 4) == 1){
+                              digitalWrite(B03_D5_RES,HIGH);
+                         }else{
+                              digitalWrite(B03_D5_RES,LOW);
+                         }
+                              B03_D5_RES_Ciclo_Iteracao = B03_D5_RES_Ciclo_Iteracao + 1;
+                              
+                    }else{
+                         // Descida
+                         if(T2_temp < 28){
+                              if ((FanRPM > 2600) && (FanRPM < 3200)){
+                                   analogWrite(VENT_PWM, 0);
+                              }
+                         }
+                         if(T2_temp < 27){
+                              DesligarVentilador();
+                         }
+                    }
+               }
+
+               if (T2_temp < 26){
+                    if (B03_D5_RES_Status == 0){
+                         // digitalWrite(B03_D5_RES,HIGH);
+                         B03_D5_RES_Status = 1;
+                         B03_D5_RES_Ciclo_Descida = 0;
+                    }
+               }
+               // -----------------------------------------------------
+
+               B05_D2_VENT_MAX_Valor = digitalRead(B05_D2_VENT_MAX);
+
+               if((B05_D2_VENT_MAX_Valor)&&(FanRPM != 0)){
+                    if(VENT_Speed_Valor != 255){
+                         VENT_Speed_Valor = 255;
+                         analogWrite(VENT_PWM, VENT_Speed_Valor);
+                         // lcd.setCursor(15, 1);
+                         // lcd.print("1");
+                    }
+
+                    
+
+                    if((FanRPM > 999) && (FanRPM < 2500)){
+                         Apito2();
+                    }
+                    if(FanRPM < 1000){
+                         Apito3();
+                    }
+               }else{
+                    if(VENT_Speed_Valor != 0){
+                         VENT_Speed_Valor = 0;
+                         analogWrite(VENT_PWM, VENT_Speed_Valor);
+                         // lcd.setCursor(15, 1);
+                         // lcd.print("0");
+                    }
+               }
 
           }else{
                lcd.setCursor(9, 1);
                lcd.print("0");
                // Desliga Luz
                digitalWrite(B04_D4_LAMP,LOW);
+               // Desliga Resistência
+               digitalWrite(B03_D5_RES,LOW);
+               // Desliga Ventilador
+               digitalWrite(VENT_D6,LOW);
+               
+
+
+               B05_D2_VENT_MAX_Valor = digitalRead(B05_D2_VENT_MAX);
+
+               if((B05_D2_VENT_MAX_Valor)&&(FanRPM != 0)){
+                    if(VENT_Speed_Valor != 255){
+                         VENT_Speed_Valor = 255;
+                         analogWrite(VENT_PWM, VENT_Speed_Valor);
+                         // lcd.setCursor(15, 1);
+                         // lcd.print("1");
+                    }
+
+                    
+
+                    if((FanRPM > 999) && (FanRPM < 2500)){
+                         Apito2();
+                    }
+                    if(FanRPM < 1000){
+                         Apito3();
+                    }
+               }else{
+                    if(VENT_Speed_Valor != 0){
+                         VENT_Speed_Valor = 0;
+                         analogWrite(VENT_PWM, VENT_Speed_Valor);
+                         // lcd.setCursor(15, 1);
+                         // lcd.print("0");
+                    }
+               }
           }
 
           
@@ -626,16 +725,16 @@ int Inicio(){
 
      // LM35
      // Lâmpada
-     T1_leitura = analogRead(T1);
-     T1_temp = (float(T1_leitura)*5/(1023))/0.01;
-     lcd.setCursor(11, 0);
-     lcd.print(T1_temp);
+     // T1_leitura = analogRead(T1);
+     // T1_temp = (float(T1_leitura)*5/(1023))/0.01;
+     // lcd.setCursor(11, 0);
+     // lcd.print(T1_temp);
 
      // Resistência
-     T2_Leitura = analogRead(T2);
-     T2_temp = (float(T2_Leitura)*5/(1023))/0.01;
-     lcd.setCursor(14, 0);
-     lcd.print(T2_temp);
+     // T2_Leitura = analogRead(T2);
+     // T2_temp = (float(T2_Leitura)*5/(1023))/0.01;
+     // lcd.setCursor(14, 0);
+     // lcd.print(T2_temp);
      
 }
 
