@@ -1,0 +1,40 @@
+1. Plugar a placa Robocore ou outra que use FTDI para se comunicar via USB.
+2. Abra o terminal e digite os comandos:
+ls -l /dev/ttyACM*
+Dará erro porque ainda não está instalado
+
+Abra o roteiro https://ftdichip.com/wp-content/uploads/2020/08/AN_220_FTDI_Drivers_Installation_Guide_for_Linux-1.pdf
+dmesg | grep FTDI 
+sudo rmmod ftdi_sio
+sudo rmmod usbserial
+
+Baixe o driver em https://ftdichip.com/drivers/d2xx-drivers/
+https://www.ftdichip.com/Drivers/D2XX/Linux/libftd2xx-arm-v7-sf-1.4.24.gz
+
+Tentar este primeiro (no longer support)
+https://www.ftdichip.com/Drivers/D2XX/Linux/libftd2xx0.4.16.tar.gz
+Extrair com os comandos abaixo, ou pela GUI
+gunzip libftd2xx1.1.12.tar.gz
+tar –xvf libftd2xx1.1.12.tar
+Não tinha a pasta, vou tentar o outro arquivo
+
+https://www.ftdichip.com/Drivers/D2XX/Linux/libftd2xx-arm-v7-sf-1.4.24.gz
+Extraia
+cd libftd2xx-arm-v7-sf-1.4.24
+
+Compilação nativa
+cd /release/build/
+sudo cp -r * /usr/local/lib
+
+sudo ln –s libftd2xx.so.1.1.12 libftd2xx.so
+
+
+__ARDUINO IDE
+https://www.arduino.cc/en/guide/linux
+Salve o arquivo
+Extraia
+Execute sudo ./install.sh
+
+Dar privilégios na serial
+Abra o terminal
+ls -l /dev/ttyACM*
