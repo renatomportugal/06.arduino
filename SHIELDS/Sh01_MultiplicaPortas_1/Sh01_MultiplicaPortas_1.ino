@@ -42,17 +42,17 @@ void loop() {
   
   // BIT_01
   // PORTA 01
-  digitalWrite(PortaB1, HIGH);
+  digitalWrite(PortaB1, LOW);
   // PORTA 02
-  digitalWrite(PortaB2, HIGH);
+  digitalWrite(PortaB2, LOW);
   // PORTA 03
-  digitalWrite(PortaB3, HIGH);
+  digitalWrite(PortaB3, LOW);
   // PORTA 04
-  digitalWrite(PortaB4, HIGH);
+  digitalWrite(PortaB4, LOW);
   // PORTA 05
-  digitalWrite(PortaB5, HIGH);
+  digitalWrite(PortaB5, LOW);
   // PORTA 06
-  digitalWrite(PortaB6, HIGH);
+  digitalWrite(PortaB6, LOW);
   // PORTA 07
   digitalWrite(PortaB7, HIGH);
   // CLOCK
@@ -61,76 +61,76 @@ void loop() {
   
   // BIT_02
   // PORTA 01
-  digitalWrite(PortaB1, HIGH);
+  digitalWrite(PortaB1, LOW);
   // PORTA 02
-  digitalWrite(PortaB2, HIGH);
+  digitalWrite(PortaB2, LOW);
   // PORTA 03
-  digitalWrite(PortaB3, HIGH);
+  digitalWrite(PortaB3, LOW);
   // PORTA 04
-  digitalWrite(PortaB4, HIGH);
+  digitalWrite(PortaB4, LOW);
   // PORTA 05
-  digitalWrite(PortaB5, HIGH);
+  digitalWrite(PortaB5, LOW);
   // PORTA 06
   digitalWrite(PortaB6, HIGH);
   // PORTA 07
-  digitalWrite(PortaB7, HIGH);
+  digitalWrite(PortaB7, LOW);
   // CLOCK
   digitalWrite(CP, LOW);
   digitalWrite(CP, HIGH);
   
   // BIT_03
   // PORTA 01
-  digitalWrite(PortaB1, HIGH);
+  digitalWrite(PortaB1, LOW);
   // PORTA 02
-  digitalWrite(PortaB2, HIGH);
+  digitalWrite(PortaB2, LOW);
   // PORTA 03
-  digitalWrite(PortaB3, HIGH);
+  digitalWrite(PortaB3, LOW);
   // PORTA 04
-  digitalWrite(PortaB4, HIGH);
+  digitalWrite(PortaB4, LOW);
   // PORTA 05
   digitalWrite(PortaB5, HIGH);
   // PORTA 06
-  digitalWrite(PortaB6, HIGH);
+  digitalWrite(PortaB6, LOW);
   // PORTA 07
-  digitalWrite(PortaB7, HIGH);
+  digitalWrite(PortaB7, LOW);
   // CLOCK
   digitalWrite(CP, LOW);
   digitalWrite(CP, HIGH);
   
   // BIT_04
   // PORTA 01
-  digitalWrite(PortaB1, HIGH);
+  digitalWrite(PortaB1, LOW);
   // PORTA 02
-  digitalWrite(PortaB2, HIGH);
+  digitalWrite(PortaB2, LOW);
   // PORTA 03
-  digitalWrite(PortaB3, HIGH);
+  digitalWrite(PortaB3, LOW);
   // PORTA 04
   digitalWrite(PortaB4, HIGH);
   // PORTA 05
-  digitalWrite(PortaB5, HIGH);
+  digitalWrite(PortaB5, LOW);
   // PORTA 06
-  digitalWrite(PortaB6, HIGH);
+  digitalWrite(PortaB6, LOW);
   // PORTA 07
-  digitalWrite(PortaB7, HIGH);
+  digitalWrite(PortaB7, LOW);
   // CLOCK
   digitalWrite(CP, LOW);
   digitalWrite(CP, HIGH);
   
   // BIT_05
   // PORTA 01
-  digitalWrite(PortaB1, HIGH);
+  digitalWrite(PortaB1, LOW);
   // PORTA 02
-  digitalWrite(PortaB2, HIGH);
+  digitalWrite(PortaB2, LOW);
   // PORTA 03
   digitalWrite(PortaB3, HIGH);
   // PORTA 04
-  digitalWrite(PortaB4, HIGH);
+  digitalWrite(PortaB4, LOW);
   // PORTA 05
-  digitalWrite(PortaB5, HIGH);
+  digitalWrite(PortaB5, LOW);
   // PORTA 06
-  digitalWrite(PortaB6, HIGH);
+  digitalWrite(PortaB6, LOW);
   // PORTA 07
-  digitalWrite(PortaB7, HIGH);
+  digitalWrite(PortaB7, LOW);
   // CLOCK
   digitalWrite(CP, LOW);
   digitalWrite(CP, HIGH);
@@ -139,7 +139,7 @@ void loop() {
   // PORTA 01
   digitalWrite(PortaB1, LOW);
   // PORTA 02
-  digitalWrite(PortaB2, LOW);
+  digitalWrite(PortaB2, HIGH);
   // PORTA 03
   digitalWrite(PortaB3, LOW);
   // PORTA 04
@@ -156,7 +156,7 @@ void loop() {
   
   // BIT_07
   // PORTA 01
-  digitalWrite(PortaB1, LOW);
+  digitalWrite(PortaB1, HIGH);
   // PORTA 02
   digitalWrite(PortaB2, LOW);
   // PORTA 03
@@ -175,19 +175,19 @@ void loop() {
   
   // BIT_08
   // PORTA 01
-  digitalWrite(PortaB1, HIGH);
+  digitalWrite(PortaB1, LOW);
   // PORTA 02
-  digitalWrite(PortaB2, HIGH);
+  digitalWrite(PortaB2, LOW);
   // PORTA 03
-  digitalWrite(PortaB3, HIGH);
+  digitalWrite(PortaB3, LOW);
   // PORTA 04
-  digitalWrite(PortaB4, HIGH);
+  digitalWrite(PortaB4, LOW);
   // PORTA 05
-  digitalWrite(PortaB5, HIGH);
+  digitalWrite(PortaB5, LOW);
   // PORTA 06
-  digitalWrite(PortaB6, HIGH);
+  digitalWrite(PortaB6, LOW);
   // PORTA 07
-  digitalWrite(PortaB7, HIGH);
+  digitalWrite(PortaB7, LOW);
   // CLOCK
   digitalWrite(CP, LOW);
   digitalWrite(CP, HIGH);
