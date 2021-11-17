@@ -10,8 +10,8 @@ int greenLed = 11;
 int buzzer = 10;
 int smokeA0 = A0;
 // Your threshold value
-//int sensorThres = 400;
-int sensorThres = 670;
+int sensorThres = 400;
+//int sensorThres = 760;
 
 void setup() {
   pinMode(redLed, OUTPUT);
