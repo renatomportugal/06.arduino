@@ -1,3 +1,8 @@
+DHT22
+Só funciona na versão antiga (1.0.6)
+
+
+Para outras...
 Extrair a pasta e colocar na pasta de libraries do Arduino.
 Feche e abra a IDE se não reconhecer (Win10 não precisou).
 C:\Program Files (x86)\Arduino\libraries

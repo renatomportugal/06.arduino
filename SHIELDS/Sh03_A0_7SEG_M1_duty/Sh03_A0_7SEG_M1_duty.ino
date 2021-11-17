@@ -137,7 +137,7 @@ void loop() {
   //digitalWrite(Rele_02, LOW);
   }
 
-  if ((voltage > 4.00)&&(voltage < 4.99)) {
+  if ((voltage > 4.00)&&(voltage < 4.90)) {
       //NUMERO 4
   digitalWrite(DISPLAY_A, HIGH);
   digitalWrite(DISPLAY_B, LOW);
@@ -153,7 +153,7 @@ void loop() {
   //digitalWrite(Rele_02, LOW);
   }
 
-if (voltage > 4.99) {
+if (voltage > 4.89) {
       //NUMERO 5
   digitalWrite(DISPLAY_A, LOW);
   digitalWrite(DISPLAY_B, HIGH);

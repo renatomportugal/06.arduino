@@ -10,7 +10,7 @@
 #define fatCorretor 1.157
 
 // Insira o Valor medido na entrada do Arduino
-#define V_REF    4.95
+#define V_REF    4.4
 
 int sum = {0};                // sums of samples taken
 unsigned char sample_count = 0;  // current sample number
