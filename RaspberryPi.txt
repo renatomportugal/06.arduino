@@ -1,0 +1,26 @@
+Configurando a Tela
+
+Abra o terminal
+sudo nano /boot/config.txt
+
+Descomente as linhas, atribuindo os valores:
+disable_overscan=1
+overscan_left=20
+overscan_right=20
+overscan_top=20
+overscan_bottom=20
+hdmi_force_hotplug=1
+
+Para gravar
+Ctrl+O
+Confirme com enter
+
+Saia
+Ctrl+X
+
+Saia do terminal
+exit
+
+Para ajustar o tamanho dos ícones:
+Menu, Preferências, Appearance Settings, Aba Defaults, selecione:
+Large, medium ou small.
