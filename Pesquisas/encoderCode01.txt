@@ -1,12 +1,29 @@
 //ENCODER
-#define Pot_A0 A0
+// Encoder A
+#define A 3
+// Encoder B
+#define B 4
 
-#define saidaPWM 3
 
 
 void setup() {
-  //pinMode (saidaPWM, OUTPUT);
-  //pinMode (Pot_A0, INPUT);
+  pinMode (A, INPUT);
+  pinMode (B, INPUT);
+
+  // Estado Anterior
+  String EA = "I";
+
+  if((A == 1) AND (B == 1)){
+    EA = 1;
+  }else{
+    EA = 0;
+  }
+
+  // Direção
+  String DIR = "I";
+  // Posição
+  int P = 0;
+
 }
 
 
