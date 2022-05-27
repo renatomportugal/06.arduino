@@ -1,0 +1,16 @@
+//ENCODER
+#define Pot_A0 A0
+
+#define saidaPWM 3
+
+
+void setup() {
+  //pinMode (saidaPWM, OUTPUT);
+  //pinMode (Pot_A0, INPUT);
+}
+
+
+void loop () {
+  //int sensorValue = analogRead(Pot_A0);
+  //delay(200);
+}
