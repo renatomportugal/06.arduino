@@ -1,22 +1,41 @@
+/*
+  Estado Anterior
+  I - Indeterminado
+  0 - Pulso 0
+  1 - Pulso 1
+
+  Direção
+  I - Indeterminado
+  H - Horário
+  A - Anti-horário
+
+  Posição (int)
+*/
+
 //ENCODER
 // Encoder A
 #define A 3
+
 // Encoder B
 #define B 4
 
-
+String EA;
 
 void setup() {
   pinMode (A, INPUT);
   pinMode (B, INPUT);
 
   // Estado Anterior
-  String EA = "I";
+  if((A == 0) AND (B == 0)){
+    EA = 0;
+  }
 
   if((A == 1) AND (B == 1)){
     EA = 1;
-  }else{
-    EA = 0;
+  }
+
+  if((A == 1) AND (B == 0)){
+    EA = I;
   }
 
   // Direção
@@ -24,10 +43,17 @@ void setup() {
   // Posição
   int P = 0;
 
+  
+
 }
 
 
 void loop () {
   //int sensorValue = analogRead(Pot_A0);
   //delay(200);
+
+  if((EA=="I") AND (DIR == "I")){
+    
+  }
+
 }
