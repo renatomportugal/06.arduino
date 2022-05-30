@@ -25,6 +25,11 @@ void setup() {
   pinMode (A, INPUT);
   pinMode (B, INPUT);
 
+  // Direção
+  String DIR = "I";
+  // Posição
+  int P = 0;
+
   // Estado Anterior
   if((A == 0) AND (B == 0)){
     EA = 0;
@@ -37,14 +42,6 @@ void setup() {
   if((A == 1) AND (B == 0)){
     EA = I;
   }
-
-  // Direção
-  String DIR = "I";
-  // Posição
-  int P = 0;
-
-  
-
 }
 
 
