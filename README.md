@@ -3,6 +3,7 @@
 ## CIRCUITOS
 
 ```CMD
+Clique no nome para abrir o exemplo no site.
 Clique na imagem para abrir o vídeo.
 ```
 
