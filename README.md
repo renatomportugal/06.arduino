@@ -9,7 +9,6 @@ https://renatomportugal.github.io/06.arduino/
 |Links        |Telas        |
 |---          |---          |
 | [001.blink](https://wokwi.com/projects/337221498511032914) | <img src="images/001.blink.jpg"/> |
-| Link do YouTube | <iframe width='100%' height='100%' src='https://www.youtube.com/embed/zo43gnE7tpo?list=PL9WtdEgkLhgml_J5RXcELR1N_ae_3YAr_' title='Arduino - Led Blink' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe> |
 
 ## Windows
 
