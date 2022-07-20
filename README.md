@@ -1,14 +1,14 @@
 # Instalação
 
-```CMD
-https://renatomportugal.github.io/06.arduino/
-```
-
 ## CIRCUITOS
+
+```CMD
+Clique na imagem para abrir o vídeo.
+```
 
 |Links        |Telas        |
 |---          |---          |
-| [001.blink](https://wokwi.com/projects/337221498511032914) | [<img src="images/001.blink.jpg"/>](https://wokwi.com/projects/337221498511032914) |
+| [001.blink](https://wokwi.com/projects/337221498511032914) | [<img src="images/001.blink.jpg"/>](https://www.youtube.com/watch?v=zo43gnE7tpo) |
 
 ## Windows
 
@@ -236,6 +236,6 @@ At the command prompt, type `nano`.
 ##### Heading level 5
 ###### Heading level 6
 
-
-
-
+```CMD
+https://renatomportugal.github.io/06.arduino/
+```
