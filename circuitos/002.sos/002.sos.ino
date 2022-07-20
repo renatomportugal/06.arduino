@@ -7,9 +7,17 @@
 // Rápido
 int dit = 50;
 int dah = 250;
-int intervalodit = 100;
-int intervalodah = 300;
+int intervalodit = 150;
+int intervalodah = 400;
 int intervalopalavra = 200;
+
+void setup() {
+  teclarFrase("sos");
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+}
 
 int playDit(){
     tone(falante,frequencia, dit);

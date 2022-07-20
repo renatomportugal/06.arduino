@@ -10,6 +10,7 @@ Clique na imagem para abrir o vídeo.
 |Links        |Telas        |
 |---          |---          |
 | [001.blink](https://wokwi.com/projects/337221498511032914) | [<img src="images/001.blink.jpg"/>](https://www.youtube.com/watch?v=zo43gnE7tpo) |
+| [002.sos](https://wokwi.com/projects/337666895110996563) | <img src="images/002.sos.jpg"/> |
 
 ## Windows
 
