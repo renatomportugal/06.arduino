@@ -12,6 +12,7 @@ Clique na imagem para abrir o vídeo.
 | [001.blink](https://wokwi.com/projects/337221498511032914) | [<img src="images/001.blink.jpg"/>](https://www.youtube.com/watch?v=zo43gnE7tpo) |
 | [002.sos](https://wokwi.com/projects/337666895110996563) | <img src="images/002.sos.jpg"/> |
 | [003.lcd](https://wokwi.com/projects/337220789451358803) | <img src="images/003.lcd.jpg"/> |
+| [004.rgb_fade](https://wokwi.com/projects/337724860009546323) | <img src="images/004.rgb_fade.jpg"/> |
 
 ## Windows
 
