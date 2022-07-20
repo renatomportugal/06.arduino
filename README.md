@@ -8,7 +8,7 @@ https://renatomportugal.github.io/06.arduino/
 
 |Links        |Telas        |
 |---          |---          |
-| [001.blink](https://wokwi.com/projects/337221498511032914) | <img src="images/001.blink.jpg"/> |
+| [001.blink](https://wokwi.com/projects/337221498511032914) | [<img src="images/001.blink.jpg"/>](https://wokwi.com/projects/337221498511032914) |
 
 ## Windows
 
