@@ -21,6 +21,7 @@ Clique na imagem para abrir o vídeo.
 Algumas placas não são reconhecidas pelo windows e deve seguir:<br>
 Painel de controle, Sistema, Gerenciador de Dispositivos. Veja qual foi o dispositivo que foi iniciado.<br>
 Procure o driver dentro da pasta do arduino. Terá de fazer o passo duas vezes (FTDI e USB).<br>
+Até a versão 1.8.15 da IDE Arduino, ele aceita placas paralelas. A versão 2.0 e acima não aceitam.<br>
 
 ## Linux
 https://www.arduino.cc/en/Main/Software<br>
