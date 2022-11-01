@@ -14,6 +14,15 @@ Clique na imagem para abrir o vídeo.
 | [003.lcd](https://wokwi.com/projects/337220789451358803) | <img src="images/003.lcd.jpg"/> |
 | [004.rgb_fade](https://wokwi.com/projects/337724860009546323) | <img src="images/004.rgb_fade.jpg"/> |
 | [005.display_7seg](https://wokwi.com/projects/337726629069455955) | <img src="images/005.display_7seg.jpg"/> |
+| [006.lcd_bargraph](https://wokwi.com/projects/347142172950135379) | <img src="images/006.lcd_bargraph.jpg"/> |
+
+## Links
+
+```CMD
+Construtor de ícone para Arduino
+https://maxpromer.github.io/LCD-Character-Creator/
+
+```
 
 ## Windows
 
