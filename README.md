@@ -15,6 +15,8 @@ Clique na imagem para abrir o vídeo.
 | [004.rgb_fade](https://wokwi.com/projects/337724860009546323) | <img src="images/004.rgb_fade.jpg"/> |
 | [005.display_7seg](https://wokwi.com/projects/337726629069455955) | <img src="images/005.display_7seg.jpg"/> |
 | [006.lcd_bargraph](https://wokwi.com/projects/347142172950135379) | <img src="images/006.lcd_bargraph.jpg"/> |
+| [007.lcd_char](https://wokwi.com/projects/347144788933345875) | <img src="images/007.lcd_char.jpg"/> |
+| [008.lcd_bateria](https://wokwi.com/projects/347187838483169874) | <img src="images/008.lcd_bateria.jpg"/> |
 
 ## Links
 

@@ -11,24 +11,18 @@ int DB7 = 8;
 LiquidCrystal lcd(RS, E, DB4, DB5, DB6, DB7);
 
 //CHAR
-byte customChar[] = {
-  B11100,
-  B01000,
-  B01000,
-  B00010,
-  B00111,
-  B10010,
-  B10000,
-  B11000
-};
+byte customChar[] = { B11100, B01000, B01000, B00010, B00111, B10010, B10000, B11000};
+byte iconBatPos[] = { B00011, B00011, B01111, B01111, B01111, B01111, B00011, B00011};
 
 void setup() {
   // set up the LCD's number of columns and rows: 
   lcd.begin(16, 2);
-  
+  lcd.setCursor(0,0);
   lcd.createChar(0, customChar);
   lcd.home();
-  lcd.write(0);
+  lcd.write(byte(0));
+
+  
 }
 
 void loop() {
