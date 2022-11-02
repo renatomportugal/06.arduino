@@ -35,59 +35,81 @@ void setup() {
   lcd.createChar(6, BatMeio4);
   lcd.createChar(7, BatNeg0);
 
-  //Bat100(12,0);
-  //lcd.setCursor(12,1);
-  //lcd.write("100%");
-
-  //Bat80(12,0);
-  //lcd.setCursor(13,1);
-  //lcd.write("80%");
-
-  //Bat75(12,0);
-  //lcd.setCursor(13,1);
-  //lcd.write("75%");
-
-  //Bat60(12,0);
-  //lcd.setCursor(13,1);
-  //lcd.write("60%");
-
-  //Bat55(12,0);
-  //lcd.setCursor(13,1);
-  //lcd.write("55%");
-
-  //Bat50(12,0);
-  //lcd.setCursor(13,1);
-  //lcd.write("50%");
-
-  //Bat40(12,0);
-  //lcd.setCursor(13,1);
-  //lcd.write("40%");
-
-  //Bat30(12,0);
-  //lcd.setCursor(13,1);
-  //lcd.write("30%");
-
-  Bat25(12,0);
-  lcd.setCursor(13,1);
-  lcd.write("25%");
-
-  //Bat10(12,0);
-  //lcd.setCursor(13,1);
-  //lcd.write("10%");
-
-  //Bat5(12,0);
-  //lcd.setCursor(14,1);
-  //lcd.write("5%");
-
-  //Bat0(12,0);
-  //lcd.setCursor(14,1);
-  //lcd.write("0%");
-
-
 }
 
 void loop() {
+  Bat100(12,0);
+  lcd.setCursor(12,1);
+  lcd.write("100%");
+
+  delay(1000);
+
+  Bat80(12,0);
+  lcd.setCursor(12,1);
+  lcd.write(" 80%");
+
+  delay(1000);
+
+  Bat75(12,0);
+  lcd.setCursor(12,1);
+  lcd.write(" 75%");
+
+  delay(1000);
+
+  Bat60(12,0);
+  lcd.setCursor(12,1);
+  lcd.write(" 60%");
+
+  delay(1000);
+
+  Bat55(12,0);
+  lcd.setCursor(12,1);
+  lcd.write(" 55%");
+
+  delay(1000);
   
+  Bat50(12,0);
+  lcd.setCursor(12,1);
+  lcd.write(" 50%");
+
+  delay(1000);
+
+  Bat40(12,0);
+  lcd.setCursor(12,1);
+  lcd.write(" 40%");
+
+  delay(1000);
+
+  Bat30(12,0);
+  lcd.setCursor(12,1);
+  lcd.write(" 30%");
+
+  delay(1000);
+
+  Bat25(12,0);
+  lcd.setCursor(12,1);
+  lcd.write(" 25%");
+
+  delay(1000);
+
+  Bat10(12,0);
+  lcd.setCursor(12,1);
+  lcd.write(" 10%");
+
+  delay(1000);
+
+  Bat5(12,0);
+  lcd.setCursor(12,1);
+  lcd.write("  5%");
+
+  delay(1000);
+
+  Bat0(12,0);
+  lcd.setCursor(12,1);
+  lcd.write("  0%");
+
+  delay(1000);
+
 }
 
 void Bat100(int coluna, int linha){

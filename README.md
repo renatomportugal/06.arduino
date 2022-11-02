@@ -17,6 +17,8 @@ Clique na imagem para abrir o vídeo.
 | [006.lcd_bargraph](https://wokwi.com/projects/347142172950135379) | <img src="images/006.lcd_bargraph.jpg"/> |
 | [007.lcd_char](https://wokwi.com/projects/347144788933345875) | <img src="images/007.lcd_char.jpg"/> |
 | [008.lcd_bateria](https://wokwi.com/projects/347187838483169874) | <img src="images/008.lcd_bateria.jpg"/> |
+| [009.btnA0](https://wokwi.com/projects/347250932734493267) | <img src="images/009.btnA0.jpg"/> |
+
 
 ## Links
 
