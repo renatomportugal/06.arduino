@@ -2,6 +2,13 @@
 Título: Base Bread Board
 Autor:  Renato Menezes Portugal
 
+TODO:
+Identifica Debounce e escolha de tecla repetida.
+O debounce deve utilizar uma variável dentro do tempo estipulado (200ms).
+Se a mesma tecla for acionada, aguardar o dobro do valor (400ms).
+Passado o tempo de debounce (200ms), caso a mesma tecla for apertada esperar mais 200ms.
+Utilizar outra variável para monitorar a repetição.
+
 00. ESTRUTURA FÍSICA
 _____________________________________________
 __Botões_____________________________________
