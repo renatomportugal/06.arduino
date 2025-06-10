@@ -37,10 +37,10 @@ void loop()
 
        command += (char)MinhaSerial.read(); 
        
-       if (command == "a"){
+       if (command == "1"){
         digitalWrite(Led_13, HIGH);
        }
-       else if (command == "b"){
+       else if (command == "2"){
         digitalWrite(Led_13, LOW);
        }
        
