@@ -1,4 +1,12 @@
-# Instalação
+# ARDUINO
+
+## PROGRAMA
+
+```CMD
+Legacy
+https://downloads.arduino.cc/arduino-1.8.19-windows.exe
+
+```
 
 ## CIRCUITOS
 
@@ -18,7 +26,6 @@ Clique na imagem para abrir o vídeo.
 | [007.lcd_char](https://wokwi.com/projects/347144788933345875) | <img src="images/007.lcd_char.jpg"/> |
 | [008.lcd_bateria](https://wokwi.com/projects/347187838483169874) | <img src="images/008.lcd_bateria.jpg"/> |
 | [009.btnA0](https://wokwi.com/projects/347250932734493267) | <img src="images/009.btnA0.jpg"/> |
-
 
 ## Links
 
@@ -67,7 +74,7 @@ sudo usermod -a -G dialout <username>
 ```
 Faça o logout e o login:<br>
 
-# vcpkg
+## vcpkg
 ```
 git clone  https://github.com/Microsoft/vcpkg
 cd vcpkg
@@ -77,12 +84,12 @@ sudo yum install devtoolset-7
 scl enable devtoolset-7 bash
 ```
 
-# Task Lists
+## Task Lists
 - [x] Write the press release
 - [ ] Update the website
 - [ ] Contact the media
 
-# Footnotes
+## Footnotes
 Here's a simple footnote,[^1] and here's a longer one.[^bignote]
 
 [^1]: This is the first footnote.
@@ -94,7 +101,7 @@ Indent paragraphs to include them in the footnote.
 Add as many paragraphs as you like.
 
 
-# Syntax Highlighting
+## Syntax Highlighting
 ```json
 {
 "firstName": "John",
@@ -104,7 +111,7 @@ Add as many paragraphs as you like.
 ```
 
 
-# Fenced Code Blocks
+## Fenced Code Blocks
 ```
 {
 "firstName": "John",
@@ -138,7 +145,7 @@ You can use a backslash to escape the following characters.
 
 ---
 
-# Links
+## Links
 Use [Duck Duck Go](https://duckduckgo.com).
 
 ## Tiles
