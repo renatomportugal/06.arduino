@@ -9,19 +9,21 @@ Se a mesma tecla for acionada, aguardar o dobro do valor (400ms).
 Passado o tempo de debounce (200ms), caso a mesma tecla for apertada esperar mais 200ms.
 Utilizar outra variável para monitorar a repetição.
 
+Em 12OUT25
+Notou-se instabilidade no direcional. As teclas selecionar e sair serão substituídas por outras entradas.
+O Enter será substituído pela seleção CIMA e a tecla de cima absorverá a tecla de baixo.
+
 00. ESTRUTURA FÍSICA
 _____________________________________________
 __Botões_____________________________________
 _Direcional (Dados Coletados)     LIMIAR
-Direita             - 0
+ENTRAR              - 0
 ----------------------------------15---------
-Cima                - 27
-----------------------------------40---------
-Baixo               - 68 a 77
+Direita             - 27 a 71
 ----------------------------------100--------
 Equerda             - 118 a 127
 ----------------------------------150--------
-Confirma (Enter)    - 177
+Sair                - 177
 ----------------------------------200--------
 Potenciômetro 1     -
 Potenciômetro 2     -
@@ -47,18 +49,38 @@ enter, são os mais confiáveis.
 */
 
 // 1. INCLUDES
+#include <LiquidCrystal.h>
 
 // 2. PINOS
 /*
 A0 - Potenciômetro 1
 A1 - Potenciômetro 2
-A2 - Direcionai com Enter
+A2 - Direcional com Enter
 A3 - Switch 1
 A4 - Switch 2
 A5 - 
 D2 - Led Amarelo
 D3 - Led Verde
-D13 - Built in Led
+
+LCD
++-----------------------------+
+|16  K     o                  |
+|15  A     o                  |
+| 1  VSS   o---- GND          |
+| 2  VDD   o---- +5V          |
+| 3  V0    o---- 1K no GND    |
+| 4  RS    o---- Arduino 13   |
+| 5  RW    o---- GND          |
+| 6  E     o---- Arduino 12   |
+| 7  DB0   o                  |
+| 8  DB1   o                  |
+| 9  DB2   o                  |
+|10  DB3   o                  |
+|11  DB4   o---- Arduino 11   |
+|12  DB5   o---- Arduino 10   |
+|13  DB6   o---- Arduino 9    |
+|14  DB7   o---- Arduino 8    |
++-----------------------------+
 */
 
 // 3. DECLARACAO DE VARIAVEIS
@@ -69,7 +91,15 @@ D13 - Built in Led
 #define Sw_2 A4
 #define LedAmarelo 2
 #define LedVerde 3
-#define LED_BUILTIN 13
+
+//LCD
+int RS = 13;
+int E = 12;
+int DB4 = 11;
+int DB5 = 10;
+int DB6 = 9;
+int DB7 = 8;
+LiquidCrystal lcd(RS, E, DB4, DB5, DB6, DB7);
 
 void setup(){
     Serial.begin(115200);
@@ -80,8 +110,9 @@ void setup(){
     pinMode (Direcional, INPUT);
     pinMode(LedAmarelo, OUTPUT);
     pinMode(LedVerde, OUTPUT);
-    pinMode(LED_BUILTIN, OUTPUT);
-    
+    lcd.begin(16, 2);
+    lcd.setCursor(0, 0);
+    lcd.print("APERTE UMA TECLA");
 }
 
 void loop(){
@@ -167,29 +198,48 @@ Serial.println(sensorPot_2);
   }
 
  if (mapsensorDirecional < 15){
-  Serial.print(mapsensorDirecional);
-  Serial.print(": ");
-  Serial.println("DIREITA");
+  // Serial.print(mapsensorDirecional);
+  // Serial.print(": ");
+  // Serial.println("DIREITA");
+  lcd.setCursor(0, 0);
+  lcd.print("ENTRAR          ");
+  lcd.setCursor(0, 1);
+  lcd.print("                ");
+  lcd.setCursor(0, 1);
+  lcd.print(mapsensorDirecional);
  }
- else if ((mapsensorDirecional > 14) && (mapsensorDirecional < 41)){
-  Serial.print(mapsensorDirecional);
-  Serial.print(": ");
-  Serial.println("CIMA");
+ else if ((mapsensorDirecional > 15) && (mapsensorDirecional < 101)){
+  // Serial.print(mapsensorDirecional);
+  // Serial.print(": ");
+  // Serial.println("CIMA");
+  lcd.setCursor(0, 0);
+  lcd.print("DIREITA           ");
+  lcd.setCursor(0, 1);
+  lcd.print("                ");
+  lcd.setCursor(0, 1);
+  lcd.print(mapsensorDirecional);
  }
- else if ((mapsensorDirecional > 40) && (mapsensorDirecional < 101)){
-  Serial.print(mapsensorDirecional);
-  Serial.print(": ");
-  Serial.println("BAIXO");
+ else if ((mapsensorDirecional > 100) && (mapsensorDirecional < 151)){
+  // Serial.print(mapsensorDirecional);
+  // Serial.print(": ");
+  // Serial.println("ESQUERDA");
+  lcd.setCursor(0, 0);
+  lcd.print("ESQUERDA        ");
+  lcd.setCursor(0, 1);
+  lcd.print("                ");
+  lcd.setCursor(0, 1);
+  lcd.print(mapsensorDirecional);
  }
- else if ((mapsensorDirecional > 100) && (mapsensorDirecional < 175)){
-  Serial.print(mapsensorDirecional);
-  Serial.print(": ");
-  Serial.println("ESQUERDA");
- }
- else if ((mapsensorDirecional > 174) && (mapsensorDirecional < 201)){
-  Serial.print(mapsensorDirecional);
-  Serial.print(": ");
-  Serial.println("ENTER");
+ else if ((mapsensorDirecional > 150) && (mapsensorDirecional < 201)){
+  // Serial.print(mapsensorDirecional);
+  // Serial.print(": ");
+  // Serial.println("ENTER");
+  lcd.setCursor(0, 0);
+  lcd.print("SAIR            ");
+  lcd.setCursor(0, 1);
+  lcd.print("                ");
+  lcd.setCursor(0, 1);
+  lcd.print(mapsensorDirecional);
  }
  else {
   
@@ -216,12 +266,4 @@ Serial.print(" - ");
 Serial.println(sensorSw_2);
 */
 
-//__LED________________________________________________________________________
-  
-  //Serial.println("yyyyy");
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(200);
-
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(200);
 }
