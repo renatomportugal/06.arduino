@@ -56,8 +56,8 @@ A2 - Direcionai com Enter
 A3 - Switch 1
 A4 - Switch 2
 A5 - 
-D3 - Led Amarelo
-D4 - Led Verde
+D2 - Led Amarelo
+D3 - Led Verde
 D13 - Built in Led
 */
 
@@ -107,13 +107,13 @@ void loop(){
   float VsensorDirecional = sensorDirecional * (5.0 / 1023.0);
   
 
-
+/*
 Serial.print(sensorDirecional);
 Serial.print(";");
 Serial.print(sensorPot_1);
 Serial.print(";");
 Serial.println(sensorPot_2);
-
+*/
 
 /*
   //Saída
@@ -153,7 +153,7 @@ Serial.println(sensorPot_2);
   Serial.print(";");
 */
 
-/*
+//__ BOTOES____________________________________________________________________
   if((mapsensorPot_1 < 127)||(sensorSw_1 < 2)){
     digitalWrite(LedAmarelo, HIGH);
   }else{
@@ -167,25 +167,56 @@ Serial.println(sensorPot_2);
   }
 
  if (mapsensorDirecional < 15){
+  Serial.print(mapsensorDirecional);
+  Serial.print(": ");
   Serial.println("DIREITA");
  }
- else if ((mapsensorDirecional > 14) && (mapsensorDirecional < 40)){
+ else if ((mapsensorDirecional > 14) && (mapsensorDirecional < 41)){
+  Serial.print(mapsensorDirecional);
+  Serial.print(": ");
   Serial.println("CIMA");
  }
- else if ((mapsensorDirecional > 40) && (mapsensorDirecional < 100)){
+ else if ((mapsensorDirecional > 40) && (mapsensorDirecional < 101)){
+  Serial.print(mapsensorDirecional);
+  Serial.print(": ");
   Serial.println("BAIXO");
  }
- else if ((mapsensorDirecional > 100) && (mapsensorDirecional < 150)){
+ else if ((mapsensorDirecional > 100) && (mapsensorDirecional < 175)){
+  Serial.print(mapsensorDirecional);
+  Serial.print(": ");
   Serial.println("ESQUERDA");
  }
- else if ((mapsensorDirecional > 150) && (mapsensorDirecional < 200)){
+ else if ((mapsensorDirecional > 174) && (mapsensorDirecional < 201)){
+  Serial.print(mapsensorDirecional);
+  Serial.print(": ");
   Serial.println("ENTER");
  }
  else {
   
  }
- */
-  
+//__ BOTOES____________________________________________________________________
+
+//__LED________________________________________________________________________
+
+if ((mapsensorPot_1 > 126) || (sensorSw_1 < 10)){
+  digitalWrite(LedAmarelo, HIGH);
+ }else{
+  digitalWrite(LedAmarelo, LOW);
+ }
+
+ if ((mapsensorPot_2 > 126) || (sensorSw_2 < 10)){
+  digitalWrite(LedVerde, HIGH);
+ }else{
+  digitalWrite(LedVerde, LOW);
+ }
+ 
+/*
+Serial.print(sensorSw_1);
+Serial.print(" - ");
+Serial.println(sensorSw_2);
+*/
+
+//__LED________________________________________________________________________
   
   //Serial.println("yyyyy");
   digitalWrite(LED_BUILTIN, HIGH);
