@@ -107,9 +107,15 @@ void loop(){
   float VsensorDirecional = sensorDirecional * (5.0 / 1023.0);
   
 
+
+Serial.print(sensorDirecional);
+Serial.print(";");
+Serial.print(sensorPot_1);
+Serial.print(";");
+Serial.println(sensorPot_2);
+
+
 /*
-
-
   //Saída
   Serial.print("POT_1");
   Serial.print(";");
@@ -147,6 +153,7 @@ void loop(){
   Serial.print(";");
 */
 
+/*
   if((mapsensorPot_1 < 127)||(sensorSw_1 < 2)){
     digitalWrite(LedAmarelo, HIGH);
   }else{
@@ -177,7 +184,7 @@ void loop(){
  else {
   
  }
-  
+ */
   
   
   //Serial.println("yyyyy");
