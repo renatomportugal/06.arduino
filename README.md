@@ -8,6 +8,17 @@ https://downloads.arduino.cc/arduino-1.8.19-windows.exe
 
 ```
 
+## Simuladores
+
+```txt
+https://sites.google.com/site/unoardusim/simulator-download
+https://xevro.be/products/arduino-simulator-windows-free.html
+https://simulide.com/p/
+https://www.flowcode.co.uk/
+https://github.com/lcgamboa/picsimlab
+
+```
+
 ## CIRCUITOS
 
 ```CMD
