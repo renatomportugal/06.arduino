@@ -1,3 +1,13 @@
+/*
+Autor:      Renato Menezes Portugal
+Título:     013-Sh01-02-03-Falante-LCD-Rele-Continuidade
+Descrição:  
+*/
+
+/* 00. CONFIGURATION
+SW1 - Acionar o pino 5 (A3)
+*/
+
 //__CONFIGURAÇÃO____________________________
 // Shield 01
   #include "morse.h"
