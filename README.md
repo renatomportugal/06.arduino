@@ -28,16 +28,16 @@ Clique na imagem para abrir o vídeo.
 
 |Links        |Telas        |
 |---          |---          |
-| [001.blink](https://wokwi.com/projects/337221498511032914) | [<img src="images/001.blink.jpg"/>](https://www.youtube.com/watch?v=zo43gnE7tpo) |
-| [002.sos](https://wokwi.com/projects/337666895110996563) | <img src="images/002.sos.jpg"/> |
-| [003.lcd](https://wokwi.com/projects/337220789451358803) | <img src="images/003.lcd.jpg"/> |
-| [004.rgb_fade](https://wokwi.com/projects/337724860009546323) | <img src="images/004.rgb_fade.jpg"/> |
-| [005.display_7seg](https://wokwi.com/projects/337726629069455955) | <img src="images/005.display_7seg.jpg"/> |
-| [006.lcd_bargraph](https://wokwi.com/projects/347142172950135379) | <img src="images/006.lcd_bargraph.jpg"/> |
-| [007.lcd_char](https://wokwi.com/projects/347144788933345875) | <img src="images/007.lcd_char.jpg"/> |
-| [008.lcd_bateria](https://wokwi.com/projects/347187838483169874) | <img src="images/008.lcd_bateria.jpg"/> |
-| [009.btnA0](https://wokwi.com/projects/347250932734493267) | <img src="images/009.btnA0.jpg"/> |
-| [019.pot](https://wokwi.com/projects/457128068446743553) | <img src="images/010.pot.jpg"/> |
+| [001.blink](https://wokwi.com/projects/337221498511032914) | <img src="https://renatomportugal.github.io/06.arduino/images/001.blink.jpg"/> |
+| [002.sos](https://wokwi.com/projects/337666895110996563) | <img src="https://renatomportugal.github.io/06.arduino/images/002.sos.jpg"/> |
+| [003.lcd](https://wokwi.com/projects/337220789451358803) | <img src="https://renatomportugal.github.io/06.arduino/images/003.lcd.jpg"/> |
+| [004.rgb_fade](https://wokwi.com/projects/337724860009546323) | <img src="https://renatomportugal.github.io/06.arduino/images/004.rgb_fade.jpg"/> |
+| [005.display_7seg](https://wokwi.com/projects/337726629069455955) | <img src="https://renatomportugal.github.io/06.arduino/images/005.display_7seg.jpg"/> |
+| [006.lcd_bargraph](https://wokwi.com/projects/347142172950135379) | <img src="https://renatomportugal.github.io/06.arduino/images/006.lcd_bargraph.jpg"/> |
+| [007.lcd_char](https://wokwi.com/projects/347144788933345875) | <img src="https://renatomportugal.github.io/06.arduino/images/007.lcd_char.jpg"/> |
+| [008.lcd_bateria](https://wokwi.com/projects/347187838483169874) | <img src="https://renatomportugal.github.io/06.arduino/images/008.lcd_bateria.jpg"/> |
+| [009.btnA0](https://wokwi.com/projects/347250932734493267) | <img src="https://renatomportugal.github.io/06.arduino/images/009.btnA0.jpg"/> |
+| [010.pot](https://wokwi.com/projects/457128068446743553) | <img src="https://renatomportugal.github.io/06.arduino/images/010.pot.jpg"/> |
 
 ## Links
 
