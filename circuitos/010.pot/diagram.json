@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "author": "Renato Portugal",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 0.6, "left": -0.6, "attrs": {} },
+    { "type": "wokwi-lcd1602", "id": "lcd1", "top": -188.57, "left": 16, "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": 229.1, "left": 124.6, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:8", "lcd1:D7", "green", [ "v-47.4", "h-10.1" ] ],
+    [ "uno:9", "lcd1:D6", "green", [ "v-47.4", "h-9.6" ] ],
+    [ "uno:10", "lcd1:D5", "green", [ "v-47.4", "h-9.6" ] ],
+    [ "uno:11", "lcd1:D4", "green", [ "v-47.4", "h-9.6" ] ],
+    [ "uno:12", "lcd1:E", "green", [ "v-57", "h-38.5" ] ],
+    [ "pot1:GND", "uno:GND.2", "black", [ "v19.2", "h-48", "v-96", "h63.3" ] ],
+    [ "pot1:VCC", "uno:5V", "red", [ "v38.4", "h-87.2", "v-124.8", "h73" ] ],
+    [ "pot1:SIG", "uno:A0", "green", [ "v19.2", "h43.8" ] ],
+    [ "uno:13", "lcd1:RS", "green", [ "v-48", "h-47.9" ] ]
+  ],
+  "dependencies": {}
+}

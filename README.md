@@ -37,6 +37,7 @@ Clique na imagem para abrir o vídeo.
 | [007.lcd_char](https://wokwi.com/projects/347144788933345875) | <img src="images/007.lcd_char.jpg"/> |
 | [008.lcd_bateria](https://wokwi.com/projects/347187838483169874) | <img src="images/008.lcd_bateria.jpg"/> |
 | [009.btnA0](https://wokwi.com/projects/347250932734493267) | <img src="images/009.btnA0.jpg"/> |
+| [019.pot](https://wokwi.com/projects/457128068446743553) | <img src="images/010.pot.jpg"/> |
 
 ## Links
 
